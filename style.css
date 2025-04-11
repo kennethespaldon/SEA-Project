@@ -86,7 +86,7 @@ aside {
 .player-img-stats-container {
   position: relative;
   width: 100%;
-  height: 600px;
+  height: 650px;
 }
 
 .card img {
@@ -144,6 +144,20 @@ button {
   background-color: #BBBDBC;
   font-size: 20px;
   padding: 2px;
+}
+
+.player-awards-title {
+  background-color: #BBBDBC;
+  margin: 0 12px;
+  padding: 2px;
+}
+
+.mvp-years,
+.dpoy-years,
+.all-nba-years,
+.all-defensive-years {
+  font-size: 12px;
+  font-style: italic;
 }
 
 .hidden {

@@ -46,11 +46,7 @@ function showCards() {
   cardContainer.innerHTML = "";
   const templateCard = document.querySelector(".card");
 
-  for (let i = 0; i < playerCardNames.length; i++) {
-    let player = playerCardNames[i];
-
-    // This part of the code doesn't scale very well! After you add your
-    // own data, you'll need to do something totally different here.
+  for (const player in players) {
     let imageURL = players[player].image;
 
     const nextCard = templateCard.cloneNode(true); // Copy the template card
@@ -67,7 +63,7 @@ function editCardContent(card, newTitle, newImageURL) {
 
   const cardImage = card.querySelector("img");
   cardImage.src = newImageURL;
-  cardImage.alt = newTitle + " Poster";
+  cardImage.alt = newTitle;
 
   // You can use console.log to help you debug!
   // View the output by right clicking on your website,
@@ -187,13 +183,13 @@ dialogAddBtn.addEventListener("click", (e) => {
   
   // Add player to players object
   players[name] = player;
-  console.log(players);
+  console.log(players); // remove this
 
   // Clear inputs for the next entries
   clearDialogInputs();
 
   // Create a card for the new player and display on the page
-  // showCards();
+  showCards();
 
   addPlayerDialog.close();
 });

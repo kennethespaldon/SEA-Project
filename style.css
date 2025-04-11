@@ -1,35 +1,71 @@
+/* :root {
+  --primary-color: ;
+} */
+
 html,
 body {
   margin: 0;
   padding: 0;
+  height: 100vh;
+}
+
+body {
+  display: grid;
+  grid-template-columns: 1fr 5fr;
+  background-image: url(https://wallpapers.com/images/hd/n-b-a-legends-collage-m8fw2y4s07rddam8.jpg);
+  background-size: contain;
+  backdrop-filter: blur(8px);
 }
 
 .main-header {
   background-color: rgba(0, 0, 0, 0.3);
-  padding-bottom: 10px;
+  padding: 24px;
 }
 
 .title {
   text-align: center;
-  margin: 0;
-  font-size: 8em;
+  margin: 0 0 24px 0;
+  font-size: 3rem;
   font-family: "Helvetica";
   font-weight: normal;
   color: white;
 }
 
-#card-container {
+aside {
   display: flex;
-  justify-content: center;
-  margin: 20px;
+  flex-direction: column;
+}
+
+.add-player-btn {
+  padding: 24px 0;
+}
+
+#card-container {
+  display: grid;
+  justify-items: stretch;
+  grid-template-columns: repeat(3, 1fr);
+  grid-auto-rows: 800px;
+  gap: 50px 75px;
+  padding: 50px;
+  overflow-y: scroll;
+}
+
+.add-player-dialog {
+  /* width: 50px;
+  height: 50px; */
+  background-color: red;
+}
+
+.add-player-dialog::backdrop {
+  backdrop-filter: blur(4px);
 }
 
 .card {
-  width: 300px;
   border: 1px solid #ccc;
   border-radius: 5px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   margin: 5px;
+  background-color: #D1D7E0;
 }
 
 .card-content {
@@ -43,9 +79,30 @@ body {
   font-size: 20px;
 }
 
+.player-img-stats-container {
+  position: relative;
+  width: 100%;
+  height: 600px;
+}
+
 .card img {
   width: 100%;
-  height: auto;
+  height: 100%;
+}
+
+.player-name {
+  padding: 10px;
+  text-align: center;
+}
+
+.card-btns {
+  display: flex;
+  justify-content: center;
+  gap: 50px;
+}
+
+.stats-btn, .awards-btn {
+  padding: 5px 40px;
 }
 
 .footer {
@@ -59,12 +116,23 @@ button {
   text-align: center;
   background-color: #666;
   border: none;
-  padding-left: 10px;
-  padding-right: 10px;
-  height: 40px;
   border-radius: 10px;
   color: white;
   font-size: 22px;
   cursor: pointer;
-  margin: 5px;
+}
+
+.player-stats {
+  position: absolute;
+  top: 0;
+  left: 0;
+  background-color: rgba(0, 0, 0, 0.8);
+
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.hidden {
+  display: none;
 }

@@ -4,28 +4,149 @@
     <title>LA TV Shows | Home</title>
     <meta name="description" content="A Catalog of Shows Set in Los Angeles" />
     <link rel="stylesheet" href="style.css" />
-    <script type="text/javascript" src="scripts.js"></script>
+    <script type="module" src="scripts.js"></script>
+    <script type="module" src="./players.js"></script>
   </head>
 
   <body>
     <header class="main-header">
-      <h1 class="title">LA TV Shows</h1>
+      <h1 class="title">NBA Stats</h1>
+      <aside>
+        <button class="add-player-btn">+ Add Player</button>
+      </aside>
     </header>
-    <div id="card-container"></div>
+    <div id="card-container">
+    </div>
+    <dialog class="add-player-dialog">
+      <form class="add-player-form">
+        <!-- Remember to .preventDefault() on buttons!! -->
+        <label for="player-name-input">Player Name: </label>
+        <input type="text" id="player-name-input" name="player-name-input">
+         <div class="regular-season-stats-input">
+          <h2>Regular Season</h2>
+           <label for="regular-ppg-input">PPG: </label>
+           <input type="number" id="regular-ppg-input" name="regular-ppg-input">
+           <label for="regular-rpg-input">RPG: </label>
+           <input type="number" id="regular-rpg-input" name="regular-rpg-input">
+           <label for="regular-apg-input">APG: </label>
+           <input type="number" id="regular-apg-input" name="regular-apg-input">
+           <label for="regular-spg-input">SPG: </label>
+           <input type="number" id="regular-spg-input" name="regular-spg-input">
+           <label for="regular-spg-input">BPG: </label>
+           <input type="number" id="regular-bpg-input" name="regular-bpg-input">
+           <label for="regular-fgpct-input">FG%: </label>
+           <input type="number" id="regular-fgpct-input" name="regular-fgpct-input">
+           <label for="regular-tppct-input">3PT%: </label>
+           <input type="number" id="regular-tppct-input" name="regular-tppct-input">
+           <label for="regular-ftpct-input">FT%: </label>
+           <input type="number" id="regular-ftpct-input" name="regular-ftpct-input">
+         </div>
+         <div class="playoff-stats-input">
+          <h2>Playoffs</h2>
+           <label for="playoffs-ppg-input">PPG: </label>
+           <input type="number" id="playoffs-ppg-input" name="playoffs-ppg-input">
+           <label for="playoffs-rpg-input">RPG: </label>
+           <input type="number" id="playoffs-rpg-input" name="playoffs-rpg-input">
+           <label for="playoffs-apg-input">APG: </label>
+           <input type="number" id="playoffs-apg-input" name="playoffs-apg-input">
+           <label for="playoffs-spg-input">SPG: </label>
+           <input type="number" id="playoffs-spg-input" name="playoffs-spg-input">
+           <label for="playoffs-spg-input">BPG: </label>
+           <input type="number" id="playoffs-bpg-input" name="playoffs-bpg-input">
+           <label for="playoffs-fgpct-input">FG%: </label>
+           <input type="number" id="playoffs-fgpct-input" name="playoffs-fgpct-input">
+           <label for="playoffs-tppct-input">3PT%: </label>
+           <input type="number" id="playoffs-tppct-input" name="playoffs-tppct-input">
+           <label for="playoffs-ftpct-input">FT%: </label>
+           <input type="number" id="playoffs-ftpct-input" name="playoffs-ftpct-input">
+         </div>
+         <div class="awards-input">
+          <h2>Awards (years awarded)</h2>
+            <label for="mvp-input">MVP: </label>
+            <input type="text" id="mvp-input" name="mvp-input" placeholder="2000, 2005, 2006, 2012">
+
+            <label for="dpoy-input">DPOY: </label>
+            <input type="text" id="dpoy-input" name="dpoy-input" placeholder="2000, 2005, 2006, 2012">
+
+            <label for="all-nba-input">All-NBA: </label>
+            <input type="text" id="all-nba-input" name="all-nba-input" placeholder="2000, 2005, 2006, 2012">
+
+            <label for="all-defense-input">All-NBA: </label>
+            <input type="text" id="all-defense-input" name="all-defense-input" placeholder="2000, 2005, 2006, 2012">
+         </div>
+
+         <div class="dialog-btns">
+           <button class="dialog-add-btn">Add</button>
+           <button class="dialog-cancel-btn">Cancel</button>
+         </div>
+      </form>
+    </dialog>
     <div class="card" style="display: none">
       <div class="card-content">
-        <h2>TV Show Title</h2>
-        <img src="" alt="TV Show Poster" />
-        <ul>
-          <li>Bullet Point 1</li>
-          <li>Bullet Point 2</li>
-          <li>Bullet Point 3</li>
-        </ul>
+        <div class="player-img-stats-container">
+          <img src="" alt="TV Show Poster" />
+          <div class="player-stats hidden">
+            <table class="regular-season-stats">
+              <tr>
+                <th class="regular-season-stats-title" colspan="8">Regular Season</th>
+              </tr>
+              <tr>
+                <th class="regular-season-ppg-title">PPG</th>
+                <th class="regular-season-rpg-title">RPG</th>
+                <th class="regular-season-apg-title">APG</th>
+                <th class="regular-season-spg-title">SPG</th>
+                <th class="regular-season-bpg-title">BPG</th>
+                <th class="regular-season-fgpct-title">FG%</th>
+                <th class="regular-season-tppct-title">3PT%</th>
+                <th class="regular-season-ftpct-title">FT%</th>
+              </tr>           
+              <tr>
+                <td class="regular-season-ppg">20.7</td>
+                <td class="regular-season-rpg">13.4</td>
+                <td class="regular-season-apg">5.4</td>
+                <td class="regular-season-spg">2.0</td>
+                <td class="regular-season-bpg">0.8</td>
+                <td class="regular-season-fgpct">51.7</td>
+                <td class="regular-season-tppct">38.9</td>
+                <td class="regular-season-ftpct">73.4</td>
+              </tr>
+            </table>
+            <table class="playoffs-stats">
+              <tr>
+                <th class="playoffs-stats-title" colspan="8">Playoffs</th>
+              </tr>
+              <tr>
+                <th class="playoffs-ppg-title">PPG</th>
+                <th class="playoffs-rpg-title">RPG</th>
+                <th class="playoffs-apg-title">APG</th>
+                <th class="playoffs-spg-title">SPG</th>
+                <th class="playoffs-bpg-title">BPG</th>
+                <th class="playoffs-fgpct-title">FG%</th>
+                <th class="playoffs-tppct-title">3PT%</th>
+                <th class="playoffs-ftpct-title">FT%</th>
+              </tr>           
+              <tr>
+                <td class="playoffs-ppg">20.7</td>
+                <td class="playoffs-rpg">13.4</td>
+                <td class="playoffs-apg">5.4</td>
+                <td class="playoffs-spg">2.0</td>
+                <td class="playoffs-bpg">0.8</td>
+                <td class="playoffs-fgpct">51.7</td>
+                <td class="playoffs-tppct">38.9</td>
+                <td class="playoffs-ftpct">73.4</td>
+              </tr>
+            </table>
+          </div>
+        </div>
+        <h2 class="player-name">TV Show Title</h2>
+        <div class="card-btns">
+          <button class="stats-btn">Stats</button>
+          <button class="awards-btn">Awards</button>
+        </div>
       </div>
     </div>
-    <div class="footer">
-      <button onclick="quoteAlert();">Get A Quote!</button>
+    <!-- <div class="footer">
       <button onclick="removeLastCard();">Remove A Card!</button>
-    </div>
+    </div> -->
   </body>
 </html>

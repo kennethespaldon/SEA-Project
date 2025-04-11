@@ -77,6 +77,8 @@ const dialogCancelBtn = document.querySelector(".dialog-cancel-btn");
 
 // Input elements for adding a new player
 const playerNameInput = document.querySelector("#player-name-input");
+const playerTeamInput = document.querySelector("#player-team-input");
+const playerImageInput = document.querySelector("#img-input");
 
 const regularGamesPlayedInput = document.querySelector("#regular-gms-input");
 const regularPpgInput = document.querySelector("#regular-ppg-input");
@@ -102,8 +104,6 @@ const mvpInput = document.querySelector("#mvp-input");
 const dpoyInput = document.querySelector("#dpoy-input");
 const allNbaInput = document.querySelector("#all-nba-input");
 const allDefenseInput = document.querySelector("#all-defense-input");
-
-const playerImageInput = document.querySelector("#img-input");
 
 // Getting inputs ready for next entries
 function clearDialogInputs() {
@@ -171,6 +171,10 @@ function addPlayerAwards(name) {
   playerAwards.allDefense.yearsAwarded = allDefenseInput.value.split(", ");
 }
 
+function addPlayerTeam(name) {
+  players[name].team = playerTeamInput.value;
+}
+
 function addPlayerImage(name) {
   const player = players[name];
   player.image = playerImageInput.value.trim();
@@ -190,8 +194,9 @@ function addPlayer(e) {
 
   // Refactor idea
   addPlayerStats(name);
-  addPlayerAwards(name);
+  addPlayerTeam(name);
   addPlayerImage(name);
+  addPlayerAwards(name);
 
   // Add player to players object
   console.log(players); // remove this
@@ -267,6 +272,7 @@ class Player {
       },
     };
 
+    this.team = "";
     this.image = "";
   }
 }

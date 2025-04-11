@@ -20,80 +20,88 @@
     <dialog class="add-player-dialog">
       <form class="add-player-form">
         <!-- Remember to .preventDefault() on buttons!! -->
-        <label for="player-name-input">Player Name: </label>
-        <input type="text" id="player-name-input" name="player-name-input">
-         <div class="regular-season-stats-input">
-          <h2>Regular Season</h2>
-           <label for="regular-gms-input">Games Played: </label>
-           <input type="number" id="regular-gms-input" name="regular-gms-input">
-           <label for="regular-ppg-input">PPG: </label>
-           <input type="number" id="regular-ppg-input" name="regular-ppg-input">
-           <label for="regular-rpg-input">RPG: </label>
-           <input type="number" id="regular-rpg-input" name="regular-rpg-input">
-           <label for="regular-apg-input">APG: </label>
-           <input type="number" id="regular-apg-input" name="regular-apg-input">
-           <label for="regular-spg-input">SPG: </label>
-           <input type="number" id="regular-spg-input" name="regular-spg-input">
-           <label for="regular-spg-input">BPG: </label>
-           <input type="number" id="regular-bpg-input" name="regular-bpg-input">
-           <label for="regular-fgpct-input">FG%: </label>
-           <input type="number" id="regular-fgpct-input" name="regular-fgpct-input">
-           <label for="regular-tppct-input">3PT%: </label>
-           <input type="number" id="regular-tppct-input" name="regular-tppct-input">
-           <label for="regular-ftpct-input">FT%: </label>
-           <input type="number" id="regular-ftpct-input" name="regular-ftpct-input">
-         </div>
-         <div class="playoff-stats-input">
-          <h2>Playoffs</h2>
-          <label for="playoffs-gms-input">Games Played: </label>
-          <input type="number" id="playoffs-gms-input" name="playoffs-gms-input">
-           <label for="playoffs-ppg-input">PPG: </label>
-           <input type="number" id="playoffs-ppg-input" name="playoffs-ppg-input">
-           <label for="playoffs-rpg-input">RPG: </label>
-           <input type="number" id="playoffs-rpg-input" name="playoffs-rpg-input">
-           <label for="playoffs-apg-input">APG: </label>
-           <input type="number" id="playoffs-apg-input" name="playoffs-apg-input">
-           <label for="playoffs-spg-input">SPG: </label>
-           <input type="number" id="playoffs-spg-input" name="playoffs-spg-input">
-           <label for="playoffs-spg-input">BPG: </label>
-           <input type="number" id="playoffs-bpg-input" name="playoffs-bpg-input">
-           <label for="playoffs-fgpct-input">FG%: </label>
-           <input type="number" id="playoffs-fgpct-input" name="playoffs-fgpct-input">
-           <label for="playoffs-tppct-input">3PT%: </label>
-           <input type="number" id="playoffs-tppct-input" name="playoffs-tppct-input">
-           <label for="playoffs-ftpct-input">FT%: </label>
-           <input type="number" id="playoffs-ftpct-input" name="playoffs-ftpct-input">
-         </div>
-         <div class="awards-input">
-          <h2>Awards (years awarded)</h2>
-            <label for="mvp-input">MVP: </label>
-            <input type="text" id="mvp-input" name="mvp-input" placeholder="2000, 2005, 2006, 2012">
+        <div class="player-name-input-container">
+          <label for="player-name-input">Player Name: </label>
+          <input type="text" id="player-name-input" name="player-name-input">
+        </div>
 
-            <label for="dpoy-input">DPOY: </label>
-            <input type="text" id="dpoy-input" name="dpoy-input" placeholder="2000, 2005, 2006, 2012">
+        <div class="player-team-input-container">
+          <label for="player-team-input">Team: </label>
+          <input type="text" id="player-team-input" name="player-team-input">
+        </div>
 
-            <label for="all-nba-input">All-NBA: </label>
-            <input type="text" id="all-nba-input" name="all-nba-input" placeholder="2000, 2005, 2006, 2012">
-
-            <label for="all-defense-input">All-NBA: </label>
-            <input type="text" id="all-defense-input" name="all-defense-input" placeholder="2000, 2005, 2006, 2012">
-         </div>
-
-         <div class="image-input">
+        <div class="image-input-container">
           <label for="img-input">Player Picture (url): </label>
           <input type="text" id="img-input" name="img-input">
-         </div>
+        </div>
 
-         <div class="dialog-btns">
-           <button class="dialog-add-btn">Add</button>
-           <button class="dialog-cancel-btn">Cancel</button>
-         </div>
+        <div class="regular-season-stats-input-container">
+        <h2>Regular Season</h2>
+          <label for="regular-gms-input">Games Played: </label>
+          <input type="number" id="regular-gms-input" name="regular-gms-input">
+          <label for="regular-ppg-input">PPG: </label>
+          <input type="number" id="regular-ppg-input" name="regular-ppg-input">
+          <label for="regular-rpg-input">RPG: </label>
+          <input type="number" id="regular-rpg-input" name="regular-rpg-input">
+          <label for="regular-apg-input">APG: </label>
+          <input type="number" id="regular-apg-input" name="regular-apg-input">
+          <label for="regular-spg-input">SPG: </label>
+          <input type="number" id="regular-spg-input" name="regular-spg-input">
+          <label for="regular-spg-input">BPG: </label>
+          <input type="number" id="regular-bpg-input" name="regular-bpg-input">
+          <label for="regular-fgpct-input">FG%: </label>
+          <input type="number" id="regular-fgpct-input" name="regular-fgpct-input">
+          <label for="regular-tppct-input">3PT%: </label>
+          <input type="number" id="regular-tppct-input" name="regular-tppct-input">
+          <label for="regular-ftpct-input">FT%: </label>
+          <input type="number" id="regular-ftpct-input" name="regular-ftpct-input">
+        </div>
+        <div class="playoff-stats-input-container">
+        <h2>Playoffs</h2>
+        <label for="playoffs-gms-input">Games Played: </label>
+        <input type="number" id="playoffs-gms-input" name="playoffs-gms-input">
+          <label for="playoffs-ppg-input">PPG: </label>
+          <input type="number" id="playoffs-ppg-input" name="playoffs-ppg-input">
+          <label for="playoffs-rpg-input">RPG: </label>
+          <input type="number" id="playoffs-rpg-input" name="playoffs-rpg-input">
+          <label for="playoffs-apg-input">APG: </label>
+          <input type="number" id="playoffs-apg-input" name="playoffs-apg-input">
+          <label for="playoffs-spg-input">SPG: </label>
+          <input type="number" id="playoffs-spg-input" name="playoffs-spg-input">
+          <label for="playoffs-spg-input">BPG: </label>
+          <input type="number" id="playoffs-bpg-input" name="playoffs-bpg-input">
+          <label for="playoffs-fgpct-input">FG%: </label>
+          <input type="number" id="playoffs-fgpct-input" name="playoffs-fgpct-input">
+          <label for="playoffs-tppct-input">3PT%: </label>
+          <input type="number" id="playoffs-tppct-input" name="playoffs-tppct-input">
+          <label for="playoffs-ftpct-input">FT%: </label>
+          <input type="number" id="playoffs-ftpct-input" name="playoffs-ftpct-input">
+        </div>
+        <div class="awards-input-container">
+        <h2>Awards (years awarded)</h2>
+          <label for="mvp-input">MVP: </label>
+          <input type="text" id="mvp-input" name="mvp-input" placeholder="2000, 2005, 2006, 2012">
+
+          <label for="dpoy-input">DPOY: </label>
+          <input type="text" id="dpoy-input" name="dpoy-input" placeholder="2000, 2005, 2006, 2012">
+
+          <label for="all-nba-input">All-NBA Team Selections: </label>
+          <input type="text" id="all-nba-input" name="all-nba-input" placeholder="2000, 2005, 2006, 2012">
+
+          <label for="all-defense-input">All-Defensive Team Selections: </label>
+          <input type="text" id="all-defense-input" name="all-defense-input" placeholder="2000, 2005, 2006, 2012">
+        </div>
+
+        <div class="dialog-btns">
+          <button class="dialog-add-btn">Add</button>
+          <button class="dialog-cancel-btn">Cancel</button>
+        </div>
       </form>
     </dialog>
     <div class="card" style="display: none">
       <div class="card-content">
         <div class="player-img-stats-container">
-          <img src="" alt="TV Show Poster" />
+          <img src="" alt="Player image" />
           <div class="player-stats hidden">
             <table class="regular-season-stats">
               <tr>
@@ -147,7 +155,7 @@
             </table>
           </div>
         </div>
-        <h2 class="player-name">TV Show Title</h2>
+        <h2 class="player-name">Player Name</h2>
         <div class="card-btns">
           <button class="stats-btn">Stats</button>
           <button class="awards-btn">Awards</button>

@@ -30,6 +30,9 @@ const players = {
       mvp: {
         yearsAwarded: [2009, 2010, 2012, 2013],
       },
+      dpoy: {
+        yearsAwarded: [2009, 2010, 2012, 2012],
+      },
       allNBA: {
         yearsAwarded: [2009, 2010, 2012, 2013],
       },

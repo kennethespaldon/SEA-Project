@@ -33,7 +33,7 @@ const EAST_LOS_HIGH_POSTER_URL =
   "https://static.wikia.nocookie.net/hulu/images/6/64/East_Los_High.jpg";
 
 // This is an array of strings (TV show titles)
-let titles = [
+let playerCardNames = [
   "Lebron James",
   "Lebron James",
 ];
@@ -46,22 +46,15 @@ function showCards() {
   cardContainer.innerHTML = "";
   const templateCard = document.querySelector(".card");
 
-  for (let i = 0; i < titles.length; i++) {
-    let title = titles[i];
+  for (let i = 0; i < playerCardNames.length; i++) {
+    let player = playerCardNames[i];
 
     // This part of the code doesn't scale very well! After you add your
     // own data, you'll need to do something totally different here.
-    let imageURL = "";
-    if (i == 0) {
-      imageURL = players["Lebron James"]["image"] // set images like this
-    } else if (i == 1) {
-      imageURL = CURB_POSTER_URL;
-    } else if (i == 2) {
-      imageURL = EAST_LOS_HIGH_POSTER_URL;
-    }
+    let imageURL = players[player].image;
 
     const nextCard = templateCard.cloneNode(true); // Copy the template card
-    editCardContent(nextCard, title, imageURL); // Edit title and image
+    editCardContent(nextCard, player, imageURL); // Edit title and image
     cardContainer.appendChild(nextCard); // Add new card to the container
   }
 }
@@ -94,14 +87,17 @@ function removeLastCard() {
 const statsBtn = document.querySelector(".stats-btn");
 const awardsBtn = document.querySelector(".awards-btn");
 const addPlayerBtn = document.querySelector(".add-player-btn");
+
 // Dialog elements
 const addPlayerDialog = document.querySelector(".add-player-dialog");
 const dialogBtns = document.querySelector(".dialog-btns");
 const dialogAddBtn = document.querySelector(".dialog-add-btn");
 const dialogCancelBtn = document.querySelector(".dialog-cancel-btn");
-// Input elements
+
+// Input elements for adding a new player
 const playerNameInput = document.querySelector("#player-name-input");
 
+const regularGamesPlayedInput = document.querySelector("#regular-gms-input");
 const regularPpgInput = document.querySelector("#regular-ppg-input");
 const regularRpgInput = document.querySelector("#regular-rpg-input");
 const regularApgInput = document.querySelector("#regular-apg-input");
@@ -111,22 +107,101 @@ const regularFgPctInput = document.querySelector("#regular-fgpct-input");
 const regularTpPctInput = document.querySelector("#regular-tppct-input");
 const regularFtPctInput = document.querySelector("#regular-ftpct-input");
 
+const playoffsGamesPlayedInput = document.querySelector("#playoffs-gms-input");
 const playoffsPpgInput = document.querySelector("#playoffs-ppg-input");
 const playoffsRpgInput = document.querySelector("#playoffs-rpg-input");
 const playoffsApgInput = document.querySelector("#playoffs-apg-input");
 const playoffsSpgInput = document.querySelector("#playoffs-spg-input");
-const playoffBpgInput = document.querySelector("#playoffs-bpg-input");
-const playoffFgPctInput = document.querySelector("#playoffs-fgpct-input");
-const playoffTpPctInput = document.querySelector("#playoffs-tppct-input");
-const playoffFtPctInput = document.querySelector("#playoffs-ftpct-input");
+const playoffsBpgInput = document.querySelector("#playoffs-bpg-input");
+const playoffsFgPctInput = document.querySelector("#playoffs-fgpct-input");
+const playoffsTpPctInput = document.querySelector("#playoffs-tppct-input");
+const playoffsFtPctInput = document.querySelector("#playoffs-ftpct-input");
 
-dialogAddBtn.addEventListener("click", () => {
+const playerImageInput = document.querySelector("#img-input");
+
+// Getting inputs ready for next entries
+function clearDialogInputs() {
+  playerNameInput.value = "";
+
+  regularGamesPlayedInput.value = ""; 
+  regularPpgInput.value = "";
+  regularRpgInput.value = "";
+  regularApgInput.value = "";
+  regularSpgInput.value = "";
+  regularBpgInput.value = "";
+  regularFgPctInput.value = "";
+  regularTpPctInput.value = "";
+  regularFtPctInput.value = "";
+
+  playoffsGamesPlayedInput.value = ""; 
+  playoffsPpgInput.value = "";
+  playoffsRpgInput.value = "";
+  playoffsApgInput.value = "";
+  playoffsSpgInput.value = "";
+  playoffsBpgInput.value = "";
+  playoffsFgPctInput.value = "";
+  playoffsTpPctInput.value = "";
+  playoffsFtPctInput.value = "";
+
+  playerImageInput.value = "";
+}
+
+dialogAddBtn.addEventListener("click", (e) => {
   // Prevent form from attempting to send data to a non-existent server
   e.preventDefault();
 
   // Add new player with stats and awards (entered by user) into object. Use input values here.
+  const name = playerNameInput.value;
+  const player = new Player();
+
+  // Refactor idea
+  // players[name] = player;
+  // addPlayerStats(name); -> contains all code below until clearDialogInputs()
+  
+  const regularSeasonStats = player.stats.regularSeason;
+  regularSeasonStats.gamesPlayed = Number(regularGamesPlayedInput.value);
+  regularSeasonStats.pointsPerGame = Number(regularPpgInput.value);
+  regularSeasonStats.reboundsPerGame = Number(regularRpgInput.value);
+  regularSeasonStats.assistsPerGame = Number(regularApgInput.value);
+  regularSeasonStats.stealsPerGame = Number(regularSpgInput.value);
+  regularSeasonStats.blocksPerGame = Number(regularBpgInput.value);
+  regularSeasonStats.fieldGoalPct = Number(regularFgPctInput.value);
+  regularSeasonStats.threePointPct = Number(regularTpPctInput.value);
+  regularSeasonStats.freeThrowPct = Number(regularFtPctInput.value);
+
+  const playoffStats = player.stats.playoffs;
+  playoffStats.gamesPlayed = Number(playoffsGamesPlayedInput.value);
+  playoffStats.pointsPerGame = Number(playoffsPpgInput.value);
+  playoffStats.reboundsPerGame = Number(playoffsRpgInput.value);
+  playoffStats.assistsPerGame = Number(playoffsApgInput.value);
+  playoffStats.stealsPerGame = Number(playoffsSpgInput.value);
+  playoffStats.blocksPerGame = Number(playoffsBpgInput.value);
+  playoffStats.fieldGoalPct = Number(playoffsFgPctInput.value);
+  playoffStats.threePointPct = Number(playoffsTpPctInput.value);
+  playoffStats.freeThrowPct = Number(playoffsFtPctInput.value);
+
+  player.image = playerImageInput.value;
+
+  // Remove whitespace from both ends of the string
+  player.image = player.image.trim();
+  
+  // Add player to players object
+  players[name] = player;
+  console.log(players);
+
+  // Clear inputs for the next entries
+  clearDialogInputs();
 
   // Create a card for the new player and display on the page
+  // showCards();
+
+  addPlayerDialog.close();
+});
+
+dialogCancelBtn.addEventListener("click", (e) => {
+  e.preventDefault();
+  clearDialogInputs();
+  addPlayerDialog.close();
 });
 
 addPlayerBtn.addEventListener("click", () => {
@@ -135,6 +210,8 @@ addPlayerBtn.addEventListener("click", () => {
   // showCards();
 });
 
+// add image to Player object
+// add image input (takes image url) to dialog 
 class Player {
   constructor() {
     this.stats = {
@@ -176,5 +253,7 @@ class Player {
         yearsAwarded: [],
       },
     };
+
+    this.image = "";
   }
 }

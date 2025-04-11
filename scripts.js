@@ -25,21 +25,6 @@
 
 import { players } from "./players.js";
 
-const FRESH_PRINCE_URL =
-  "https://upload.wikimedia.org/wikipedia/commons/7/7a/LeBron_James_%2851959977144%29_%28cropped2%29.jpg";
-const CURB_POSTER_URL =
-  "https://m.media-amazon.com/images/M/MV5BZDY1ZGM4OGItMWMyNS00MDAyLWE2Y2MtZTFhMTU0MGI5ZDFlXkEyXkFqcGdeQXVyMDc5ODIzMw@@._V1_FMjpg_UX1000_.jpg";
-const EAST_LOS_HIGH_POSTER_URL =
-  "https://static.wikia.nocookie.net/hulu/images/6/64/East_Los_High.jpg";
-
-// This is an array of strings (TV show titles)
-let playerCardNames = [
-  "Lebron James",
-  "Lebron James",
-];
-// Your final submission should have much more data than this, and
-// you should use more than just an array of strings to store it all.
-
 // This function adds cards the page to display the data in the array
 function showCards() {
   const cardContainer = document.getElementById("card-container");
@@ -142,18 +127,8 @@ function clearDialogInputs() {
   playerImageInput.value = "";
 }
 
-dialogAddBtn.addEventListener("click", (e) => {
-  // Prevent form from attempting to send data to a non-existent server
-  e.preventDefault();
-
-  // Add new player with stats and awards (entered by user) into object. Use input values here.
-  const name = playerNameInput.value;
-  const player = new Player();
-
-  // Refactor idea
-  // players[name] = player;
-  // addPlayerStats(name); -> contains all code below until clearDialogInputs()
-  
+function addPlayerStats(name) {
+  const player = players[name];
   const regularSeasonStats = player.stats.regularSeason;
   regularSeasonStats.gamesPlayed = Number(regularGamesPlayedInput.value);
   regularSeasonStats.pointsPerGame = Number(regularPpgInput.value);
@@ -175,12 +150,28 @@ dialogAddBtn.addEventListener("click", (e) => {
   playoffStats.fieldGoalPct = Number(playoffsFgPctInput.value);
   playoffStats.threePointPct = Number(playoffsTpPctInput.value);
   playoffStats.freeThrowPct = Number(playoffsFtPctInput.value);
+}
 
+function addPlayerImage(name) {
+  const player = players[name];
   player.image = playerImageInput.value;
-
   // Remove whitespace from both ends of the string
   player.image = player.image.trim();
-  
+}
+
+dialogAddBtn.addEventListener("click", (e) => {
+  // Prevent form from attempting to send data to a non-existent server
+  e.preventDefault();
+
+  // Add new player with stats and awards (entered by user) into object. Use input values here.
+  const name = playerNameInput.value;
+  const player = new Player();
+
+  // Refactor idea
+  players[name] = player;
+  addPlayerStats(name);
+  addPlayerImage(name);
+
   // Add player to players object
   players[name] = player;
   console.log(players); // remove this
@@ -202,8 +193,6 @@ dialogCancelBtn.addEventListener("click", (e) => {
 
 addPlayerBtn.addEventListener("click", () => {
   addPlayerDialog.showModal();
-  // titles.push("Lebron James"); // adds new title to array
-  // showCards();
 });
 
 // add image to Player object

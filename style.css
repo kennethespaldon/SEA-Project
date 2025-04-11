@@ -144,12 +144,15 @@ button {
   background-color: #BBBDBC;
   font-size: 20px;
   padding: 2px;
+
+  position: relative;
 }
 
 .player-awards-title {
   background-color: #BBBDBC;
   margin: 0 12px;
   padding: 2px;
+  position: relative;
 }
 
 .mvp-years,
@@ -158,6 +161,15 @@ button {
 .all-defensive-years {
   font-size: 12px;
   font-style: italic;
+}
+
+.edit-icon {
+  position: absolute;
+  right: 10px;
+}
+
+.edit-icon:hover {
+  cursor: pointer;
 }
 
 .hidden {

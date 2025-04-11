@@ -98,6 +98,11 @@ const playoffsFgPctInput = document.querySelector("#playoffs-fgpct-input");
 const playoffsTpPctInput = document.querySelector("#playoffs-tppct-input");
 const playoffsFtPctInput = document.querySelector("#playoffs-ftpct-input");
 
+const mvpInput = document.querySelector("#mvp-input");
+const dpoyInput = document.querySelector("#dpoy-input");
+const allNbaInput = document.querySelector("#all-nba-input");
+const allDefenseInput = document.querySelector("#all-defense-input");
+
 const playerImageInput = document.querySelector("#img-input");
 
 // Getting inputs ready for next entries
@@ -123,6 +128,11 @@ function clearDialogInputs() {
   playoffsFgPctInput.value = "";
   playoffsTpPctInput.value = "";
   playoffsFtPctInput.value = "";
+
+  mvpInput.value = "";
+  dpoyInput.value = "";
+  allNbaInput.value = "";
+  allDefenseInput.value = "";
 
   playerImageInput.value = "";
 }
@@ -159,21 +169,22 @@ function addPlayerImage(name) {
   player.image = player.image.trim();
 }
 
-dialogAddBtn.addEventListener("click", (e) => {
+
+function addPlayer(e) {
   // Prevent form from attempting to send data to a non-existent server
   e.preventDefault();
 
   // Add new player with stats and awards (entered by user) into object. Use input values here.
   const name = playerNameInput.value;
-  const player = new Player();
+
+  const player = createPlayer();
+  players[name] = player;
 
   // Refactor idea
-  players[name] = player;
   addPlayerStats(name);
   addPlayerImage(name);
 
   // Add player to players object
-  players[name] = player;
   console.log(players); // remove this
 
   // Clear inputs for the next entries
@@ -183,20 +194,28 @@ dialogAddBtn.addEventListener("click", (e) => {
   showCards();
 
   addPlayerDialog.close();
-});
+}
 
-dialogCancelBtn.addEventListener("click", (e) => {
+dialogAddBtn.addEventListener("click", addPlayer);
+
+function cancelDialog(e) {
   e.preventDefault();
   clearDialogInputs();
   addPlayerDialog.close();
-});
+}
+
+dialogCancelBtn.addEventListener("click", cancelDialog);
 
 addPlayerBtn.addEventListener("click", () => {
   addPlayerDialog.showModal();
 });
 
 // add image to Player object
-// add image input (takes image url) to dialog 
+// add image input (takes image url) to dialog
+function createPlayer() {
+  return new Player();
+}
+
 class Player {
   constructor() {
     this.stats = {

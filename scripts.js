@@ -75,8 +75,19 @@ function showCards() {
 
     const nextCard = templateCard.cloneNode(true); // Copy the template card
     editCardContent(nextCard, player, imageURL); // Edit title and image
+
+    const statsAwardsBtn = nextCard.querySelector(".stats-awards-btn");
+    statsAwardsBtn.addEventListener("click", (e) => {
+      toggleButtonState(e, nextCard);
+    });
+
     cardContainer.appendChild(nextCard); // Add new card to the container
   }
+}
+
+function toggleButtonState(e, nextCard) {
+  const playerInfo = nextCard.querySelector(".player-stats");
+  playerInfo.classList.toggle("hidden");
 }
 
 function editCardContent(card, playerName, newImageURL) {

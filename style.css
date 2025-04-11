@@ -142,6 +142,8 @@ button {
 .regular-season-stats-title,
 .playoffs-stats-title {
   background-color: #BBBDBC;
+  font-size: 20px;
+  padding: 2px;
 }
 
 .hidden {

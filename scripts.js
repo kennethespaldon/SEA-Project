@@ -162,13 +162,21 @@ function addPlayerStats(name) {
   playoffStats.freeThrowPct = Number(playoffsFtPctInput.value);
 }
 
+function addPlayerAwards(name) {
+  const player = players[name];
+  const playerAwards = player.awards;
+  playerAwards.mvp.yearsAwarded = mvpInput.value.split(", ");
+  playerAwards.dpoy.yearsAwarded = dpoyInput.value.split(", ");
+  playerAwards.allNBA.yearsAwarded = allNbaInput.value.split(", ");
+  playerAwards.allDefense.yearsAwarded = allDefenseInput.value.split(", ");
+}
+
 function addPlayerImage(name) {
   const player = players[name];
-  player.image = playerImageInput.value;
+  player.image = playerImageInput.value.trim();
   // Remove whitespace from both ends of the string
   player.image = player.image.trim();
 }
-
 
 function addPlayer(e) {
   // Prevent form from attempting to send data to a non-existent server
@@ -182,6 +190,7 @@ function addPlayer(e) {
 
   // Refactor idea
   addPlayerStats(name);
+  addPlayerAwards(name);
   addPlayerImage(name);
 
   // Add player to players object

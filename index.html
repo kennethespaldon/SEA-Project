@@ -101,13 +101,20 @@
     <div class="card" style="display: none">
       <div class="card-content">
         <div class="player-img-stats-container">
-          <img src="" alt="Player image" />
-          <div class="player-stats hidden">
-            <table class="regular-season-stats">
+          <img src="https://cdn.nba.com/headshots/nba/latest/1040x760/1642379.png" alt="Player image" />
+          <div class="player-stats">
+            <table class="player-stats-table">
               <tr>
-                <th class="regular-season-stats-title" colspan="8">Regular Season</th>
+                <th class="player-team-title" colspan="9">Team</th>
               </tr>
               <tr>
+                <td class="player-team" colspan="9">Los Angeles Lakers</td>
+              </tr>
+              <tr>
+                <th class="regular-season-stats-title" colspan="9">Regular Season</th>
+              </tr>
+              <tr>
+                <th class="regular-season-gp-title">GP</th>
                 <th class="regular-season-ppg-title">PPG</th>
                 <th class="regular-season-rpg-title">RPG</th>
                 <th class="regular-season-apg-title">APG</th>
@@ -116,8 +123,9 @@
                 <th class="regular-season-fgpct-title">FG%</th>
                 <th class="regular-season-tppct-title">3PT%</th>
                 <th class="regular-season-ftpct-title">FT%</th>
-              </tr>           
+              </tr>
               <tr>
+                <td class="regular-season-gp">72</td>
                 <td class="regular-season-ppg">20.7</td>
                 <td class="regular-season-rpg">13.4</td>
                 <td class="regular-season-apg">5.4</td>
@@ -127,12 +135,11 @@
                 <td class="regular-season-tppct">38.9</td>
                 <td class="regular-season-ftpct">73.4</td>
               </tr>
-            </table>
-            <table class="playoffs-stats">
               <tr>
-                <th class="playoffs-stats-title" colspan="8">Playoffs</th>
+                <th class="playoffs-stats-title" colspan="9">Playoffs</th>
               </tr>
               <tr>
+                <th class="playoffs-ppg-gp">GP</th>
                 <th class="playoffs-ppg-title">PPG</th>
                 <th class="playoffs-rpg-title">RPG</th>
                 <th class="playoffs-apg-title">APG</th>
@@ -141,8 +148,9 @@
                 <th class="playoffs-fgpct-title">FG%</th>
                 <th class="playoffs-tppct-title">3PT%</th>
                 <th class="playoffs-ftpct-title">FT%</th>
-              </tr>           
+              </tr>
               <tr>
+                <td class="playoffs-gp">8</td>
                 <td class="playoffs-ppg">20.7</td>
                 <td class="playoffs-rpg">13.4</td>
                 <td class="playoffs-apg">5.4</td>
@@ -153,13 +161,11 @@
                 <td class="playoffs-ftpct">73.4</td>
               </tr>
             </table>
+            <div>Awards</div>
           </div>
         </div>
         <h2 class="player-name">Player Name</h2>
-        <div class="card-btns">
-          <button class="stats-btn">Stats</button>
-          <button class="awards-btn">Awards</button>
-        </div>
+        <button class="stats-awards-btn">Stats / Awards</button>
       </div>
     </div>
     <!-- <div class="footer">

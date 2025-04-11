@@ -25,48 +25,7 @@
 
 import { players } from "./players.js";
 
-// This function adds cards the page to display the data in the array
-function showCards() {
-  const cardContainer = document.getElementById("card-container");
-  cardContainer.innerHTML = "";
-  const templateCard = document.querySelector(".card");
-
-  for (const player in players) {
-    let imageURL = players[player].image;
-
-    const nextCard = templateCard.cloneNode(true); // Copy the template card
-    editCardContent(nextCard, player, imageURL); // Edit title and image
-    cardContainer.appendChild(nextCard); // Add new card to the container
-  }
-}
-
-function editCardContent(card, newTitle, newImageURL) {
-  card.style.display = "block";
-
-  const cardHeader = card.querySelector("h2");
-  cardHeader.textContent = newTitle;
-
-  const cardImage = card.querySelector("img");
-  cardImage.src = newImageURL;
-  cardImage.alt = newTitle;
-
-  // You can use console.log to help you debug!
-  // View the output by right clicking on your website,
-  // select "Inspect", then click on the "Console" tab
-  console.log("new card:", newTitle, "- html: ", card);
-}
-
-// This calls the addCards() function when the page is first loaded
-document.addEventListener("DOMContentLoaded", showCards);
-
-function removeLastCard() {
-  titles.pop(); // Remove last item in titles array
-  showCards(); // Call showCards again to refresh
-}
-
-// My own functions...
-const statsBtn = document.querySelector(".stats-btn");
-const awardsBtn = document.querySelector(".awards-btn");
+// const statsAwardsBtn = document.querySelector(".stats-awards-btn");
 const addPlayerBtn = document.querySelector(".add-player-btn");
 
 // Dialog elements
@@ -104,6 +63,94 @@ const mvpInput = document.querySelector("#mvp-input");
 const dpoyInput = document.querySelector("#dpoy-input");
 const allNbaInput = document.querySelector("#all-nba-input");
 const allDefenseInput = document.querySelector("#all-defense-input");
+
+// This function adds cards the page to display the data in the array
+function showCards() {
+  const cardContainer = document.getElementById("card-container");
+  cardContainer.innerHTML = "";
+  const templateCard = document.querySelector(".card");
+
+  for (const player in players) {
+    let imageURL = players[player].image;
+
+    const nextCard = templateCard.cloneNode(true); // Copy the template card
+    editCardContent(nextCard, player, imageURL); // Edit title and image
+    cardContainer.appendChild(nextCard); // Add new card to the container
+  }
+}
+
+function editCardContent(card, playerName, newImageURL) {
+  card.style.display = "block";
+
+  const cardHeader = card.querySelector("h2");
+  cardHeader.textContent = playerName;
+
+  const cardImage = card.querySelector("img");
+  cardImage.src = newImageURL;
+  cardImage.alt = playerName;
+
+  displayPlayerStats(card, playerName);
+
+  // You can use console.log to help you debug!
+  // View the output by right clicking on your website,
+  // select "Inspect", then click on the "Console" tab
+  console.log("new card:", playerName, "- html: ", card);
+}
+
+function displayPlayerStats(card, name) {
+  const player = players[name];
+  const regSznStats = player.stats.regularSeason;
+  const regSznGp = card.querySelector(".regular-season-gp");
+  const regSznPpg = card.querySelector(".regular-season-ppg");
+  const regSznRpg = card.querySelector(".regular-season-rpg");
+  const regSznApg = card.querySelector(".regular-season-apg");
+  const regSznSpg = card.querySelector(".regular-season-spg");
+  const regSznBpg = card.querySelector(".regular-season-bpg");
+  const regSznFgPct = card.querySelector(".regular-season-fgpct");
+  const regSznTpPct = card.querySelector(".regular-season-tppct");
+  const regSznFtPct = card.querySelector(".regular-season-ftpct");
+
+  regSznGp.textContent = regSznStats.gamesPlayed;
+  regSznPpg.textContent = regSznStats.pointsPerGame;
+  regSznRpg.textContent = regSznStats.reboundsPerGame;
+  regSznApg.textContent = regSznStats.assistsPerGame;
+  regSznSpg.textContent = regSznStats.stealsPerGame;
+  regSznBpg.textContent = regSznStats.blocksPerGame;
+  regSznFgPct.textContent = regSznStats.fieldGoalPct;
+  regSznTpPct.textContent = regSznStats.threePointPct;
+  regSznFtPct.textContent = regSznStats.freeThrowPct;
+
+  const playoffStats = player.stats.playoffs;
+  const playoffsGp = card.querySelector(".playoffs-gp");
+  const playoffsPpg = card.querySelector(".playoffs-ppg");
+  const playoffsRpg = card.querySelector(".playoffs-rpg");
+  const playoffsApg = card.querySelector(".playoffs-apg");
+  const playoffsSpg = card.querySelector(".playoffs-spg");
+  const playoffsBpg = card.querySelector(".playoffs-bpg");
+  const playoffsFgPct = card.querySelector(".playoffs-fgpct");
+  const playoffsTpPct = card.querySelector(".playoffs-tppct");
+  const playoffsFtPct = card.querySelector(".playoffs-ftpct");
+
+  playoffsGp.textContent = playoffStats.gamesPlayed;
+  playoffsPpg.textContent = playoffStats.pointsPerGame;
+  playoffsRpg.textContent = playoffStats.reboundsPerGame;
+  playoffsApg.textContent = playoffStats.assistsPerGame;
+  playoffsSpg.textContent = playoffStats.stealsPerGame;
+  playoffsBpg.textContent = playoffStats.blocksPerGame;
+  playoffsFgPct.textContent = playoffStats.fieldGoalPct;
+  playoffsTpPct.textContent = playoffStats.threePointPct;
+  playoffsFtPct.textContent = playoffStats.freeThrowPct;
+}
+
+// This calls the addCards() function when the page is first loaded
+document.addEventListener("DOMContentLoaded", showCards);
+
+function removeLastCard() {
+  titles.pop(); // Remove last item in titles array
+  showCards(); // Call showCards again to refresh
+}
+
+// My own functions...
 
 // Getting inputs ready for next entries
 function clearDialogInputs() {
@@ -189,9 +236,7 @@ function addPlayer(e) {
 
   // Add new player with stats and awards (entered by user) into object. Use input values here.
   const name = playerNameInput.value;
-
-  const player = createPlayer();
-  players[name] = player;
+  players[name] = createPlayer();
 
   addPlayerStats(name);
   addPlayerTeam(name);

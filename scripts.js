@@ -134,6 +134,7 @@ function clearDialogInputs() {
   allNbaInput.value = "";
   allDefenseInput.value = "";
 
+  playerTeamInput.value = "";
   playerImageInput.value = "";
 }
 
@@ -192,13 +193,11 @@ function addPlayer(e) {
   const player = createPlayer();
   players[name] = player;
 
-  // Refactor idea
   addPlayerStats(name);
   addPlayerTeam(name);
   addPlayerImage(name);
   addPlayerAwards(name);
 
-  // Add player to players object
   console.log(players); // remove this
 
   // Clear inputs for the next entries

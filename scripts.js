@@ -314,7 +314,39 @@ function updatePlayerAwards(card, playerName) {
   playerAwards.allDefense.yearsAwarded.push(Number(allDefInput.value));
 }
 
-// Clearing regular season update inputs after update/cancellation
+// CLEARING DIALOG INPUTS (get inputs ready for next entries)
+function clearDialogInputs() {
+  playerNameInput.value = "";
+
+  regularGamesPlayedInput.value = ""; 
+  regularPpgInput.value = "";
+  regularRpgInput.value = "";
+  regularApgInput.value = "";
+  regularSpgInput.value = "";
+  regularBpgInput.value = "";
+  regularFgPctInput.value = "";
+  regularTpPctInput.value = "";
+  regularFtPctInput.value = "";
+
+  playoffsGamesPlayedInput.value = ""; 
+  playoffsPpgInput.value = "";
+  playoffsRpgInput.value = "";
+  playoffsApgInput.value = "";
+  playoffsSpgInput.value = "";
+  playoffsBpgInput.value = "";
+  playoffsFgPctInput.value = "";
+  playoffsTpPctInput.value = "";
+  playoffsFtPctInput.value = "";
+
+  mvpInput.value = "";
+  dpoyInput.value = "";
+  allNbaInput.value = "";
+  allDefenseInput.value = "";
+
+  playerTeamInput.value = "";
+  playerImageInput.value = "";
+}
+
 function clearRegularSeasonUpdateInputs(card) {
   card.querySelector("#most-recent-gm-pts").value = "";
   card.querySelector("#most-recent-gm-reb").value = "";
@@ -446,40 +478,6 @@ function displayTeam(card, name) {
 // This calls the addCards() function when the page is first loaded
 document.addEventListener("DOMContentLoaded", showCards);
 
-// CLEARING DIALOG INPUTS
-// Getting inputs ready for next entries
-function clearDialogInputs() {
-  playerNameInput.value = "";
-
-  regularGamesPlayedInput.value = ""; 
-  regularPpgInput.value = "";
-  regularRpgInput.value = "";
-  regularApgInput.value = "";
-  regularSpgInput.value = "";
-  regularBpgInput.value = "";
-  regularFgPctInput.value = "";
-  regularTpPctInput.value = "";
-  regularFtPctInput.value = "";
-
-  playoffsGamesPlayedInput.value = ""; 
-  playoffsPpgInput.value = "";
-  playoffsRpgInput.value = "";
-  playoffsApgInput.value = "";
-  playoffsSpgInput.value = "";
-  playoffsBpgInput.value = "";
-  playoffsFgPctInput.value = "";
-  playoffsTpPctInput.value = "";
-  playoffsFtPctInput.value = "";
-
-  mvpInput.value = "";
-  dpoyInput.value = "";
-  allNbaInput.value = "";
-  allDefenseInput.value = "";
-
-  playerTeamInput.value = "";
-  playerImageInput.value = "";
-}
-
 // ADDING A PLAYER 
 function addPlayerStats(name) {
   const player = players[name];
@@ -562,7 +560,6 @@ function addPlayer(e) {
 }
 
 dialogAddBtn.addEventListener("click", addPlayer);
-
 function cancelDialog(e) {
   e.preventDefault();
   clearDialogInputs();
@@ -570,7 +567,6 @@ function cancelDialog(e) {
 }
 
 dialogCancelBtn.addEventListener("click", cancelDialog);
-
 addPlayerBtn.addEventListener("click", () => {
   addPlayerDialog.showModal();
 });
@@ -581,16 +577,121 @@ undoDeleteBtn.addEventListener("click", () => {
   if(trash.length === 0) {
     return;
   }
-  // Removes most recently deleted player in trash array and puts it back in players object
+
+  // Pop most recently deleted player from trash array and puts it back in players object
   // trash.pop() returns an array that looks like [playerName, playerObj]
   const [playerName, playerObj] = trash.pop();
 
-  // Add recently deleted player back into plays object
+  // Add most recently deleted player back into players object
   players[playerName] = playerObj;
   showCards();
-  console.log(players);
-  console.log(trash);
 });
+
+// SORTING 
+// Lesson learned: should've wrapped player objects in an array instead of an object so I can use array methods on it 
+function sortByStatPerGame(statType, season, direction) {
+  // statType can be pointsPerGame, reboundsPerGame, assistsPerGame, stealsPerGame, or blocksPerGame
+  statType = `${statType.toLowerCase()}PerGame`;
+
+  // Determine whether to look for regular season or playoff stats
+  if(season.toLowerCase() === "regular") {
+    season = "regularSeason";
+  } else if (season.toLowerCase() === "playoffs") {
+    season = "playoffs";
+  }
+
+  // Create an array of key/value pairs (also arrays)
+  // ["Player Name", {Player Object}]
+  const sorted = Object.entries(players);
+
+  // Sort each player object in ascending statType
+  sorted.sort((player1, player2) => {
+    const player1Stats = player1[1].stats[season][statType];
+    const player2Stats = player2[1].stats[season][statType];
+
+    if (direction === "ascending"){
+      return player1[1].stats[season][statType] - player2[1].stats[season][statType];
+    } else if (direction === "descending") {
+      return player2[1].stats[season][statType] - player1[1].stats[season][statType];
+    }
+  });
+  console.log(sorted);
+
+  // Clearing players object
+  for (const name in players) {
+    delete players[name];
+  }
+
+  // Re-add players into players objects in ascending order
+  sorted.forEach((playerArr) => {
+    const playerName = playerArr[0];
+    const playerObj = playerArr[1];
+    players[playerName] = playerObj;
+  });
+
+  console.log(players);
+}
+
+const sortPlayersDropdown = document.querySelector("#sort-players");
+sortPlayersDropdown.addEventListener("change", (e) => {
+  if(e.currentTarget.value === "unsorted")
+  {
+    return;
+  }
+  
+  if(e.currentTarget.value === "ascending-reg-szn-ppg") {
+    sortByStatPerGame("points", "regular", "ascending");
+  } else if (e.currentTarget.value === "ascending-reg-szn-rpg") {
+    sortByStatPerGame("rebounds", "regular", "ascending");
+  } else if (e.currentTarget.value === "ascending-reg-szn-apg") {
+    sortByStatPerGame("assists", "regular", "ascending");
+  } else if (e.currentTarget.value === "ascending-reg-szn-spg") {
+    sortByStatPerGame("steals", "regular", "ascending");
+  } else if (e.currentTarget.value === "ascending-reg-szn-bpg") {
+    sortByStatPerGame("blocks", "regular", "ascending");
+  }
+
+  if(e.currentTarget.value === "descending-reg-szn-ppg") {
+    sortByStatPerGame("points", "regular", "descending");
+  } else if (e.currentTarget.value === "descending-reg-szn-rpg") {
+    sortByStatPerGame("rebounds", "regular", "descending");
+  } else if (e.currentTarget.value === "descending-reg-szn-apg") {
+    sortByStatPerGame("assists", "regular", "descending");
+  } else if (e.currentTarget.value === "descending-reg-szn-spg") {
+    sortByStatPerGame("steals", "regular", "descending");
+  } else if (e.currentTarget.value === "descending-reg-szn-bpg") {
+    sortByStatPerGame("blocks", "regular", "descending");
+  }
+
+  if(e.currentTarget.value === "ascending-playoffs-ppg") {
+    sortByStatPerGame("points", "playoffs", "ascending");
+  } else if (e.currentTarget.value === "ascending-playoffs-rpg") {
+    sortByStatPerGame("rebounds", "playoffs", "ascending");
+  } else if (e.currentTarget.value === "ascending-playoffs-apg") {
+    sortByStatPerGame("assists", "playoffs", "ascending");
+  } else if (e.currentTarget.value === "ascending-playoffs-spg") {
+    sortByStatPerGame("steals", "playoffs", "ascending");
+  } else if (e.currentTarget.value === "ascending-playoffs-bpg") {
+    sortByStatPerGame("blocks", "playoffs", "ascending");
+  }
+
+  if(e.currentTarget.value === "descending-playoffs-ppg") {
+    sortByStatPerGame("points", "playoffs", "descending");
+  } else if (e.currentTarget.value === "descending-playoffs-rpg") {
+    sortByStatPerGame("rebounds", "playoffs", "descending");
+  } else if (e.currentTarget.value === "descending-playoffs-apg") {
+    sortByStatPerGame("assists", "playoffs", "descending");
+  } else if (e.currentTarget.value === "descending-playoffs-spg") {
+    sortByStatPerGame("steals", "playoffs", "descending");
+  } else if (e.currentTarget.value === "descending-playoffs-bpg") {
+    sortByStatPerGame("blocks", "playoffs", "descending");
+  }
+
+  showCards();
+});
+
+// SEARCHING
+
 
 // PLAYER CLASS
 function createPlayer() {

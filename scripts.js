@@ -126,6 +126,29 @@ function editCardContent(card, playerName, newImageURL) {
     updateRegStatsDialog.close();
   });
 
+  // Update team
+  const updateTeamDialog = card.querySelector(".update-team");
+  const updateTeamIcon = card.querySelector(".update-team-icon");
+  updateTeamIcon.addEventListener("click", () => {
+    updateTeamDialog.showModal();
+  });
+
+  const updateTeamBtn = card.querySelector(".update-team-btn");
+  const cancelUpdateTeamBtn = card.querySelector(".cancel-update-team-btn");
+  updateTeamBtn.addEventListener("click", (e) => {
+    e.preventDefault();
+    updateTeam(card, playerName);
+    displayTeam(card,playerName);
+    clearTeamUpdateInput(card);
+    updateTeamDialog.close();
+  });
+
+  cancelUpdateTeamBtn.addEventListener("click", (e) => {
+    e.preventDefault();
+    clearTeamUpdateInput(card);
+    updateTeamDialog.close();
+  });
+
   // Updating playoff stats
   const updatePlayoffStatsDialog = card.querySelector(".update-playoff-stats");
   const updatePlayoffStatsIcon = card.querySelector(".update-playoff-stats-icon");
@@ -184,6 +207,12 @@ function editCardContent(card, playerName, newImageURL) {
 }
 
 // UPDATING
+function updateTeam(card, playerName) {
+  const player = players[playerName];
+  const newTeam = card.querySelector("#update-team-input").value;
+  player.team = newTeam;
+}
+
 function updateRegularSeasonStats(card, playerName) {
   const mostRecentRegPts = card.querySelector("#most-recent-gm-pts");
   const mostRecentRegReb = card.querySelector("#most-recent-gm-reb");
@@ -290,6 +319,11 @@ function clearPlayoffUpdateInputs(card) {
   card.querySelector("#update-playoff-ftpct").value = "";
 }
 
+function clearTeamUpdateInput(card) {
+  const teamInput = card.querySelector("#update-team-input");
+  teamInput.value = "";
+}
+
 // DISPLAYING STATS/AWARDS
 function displayPlayerStats(card, name) {
   const player = players[name];
@@ -384,6 +418,11 @@ function displayPlayerAwards(card, name) {
     allDefCount.textContent = `${numberOfAllDefSelections}x All-Defensive`;
     allDefYears.textContent = `(${playerAwards.allDefense.yearsAwarded.join(", ")})`;
   }
+}
+
+function displayTeam(card, name) {
+  const team = card.querySelector(".player-team");
+  team.textContent = players[name].team;
 }
 
 // This calls the addCards() function when the page is first loaded

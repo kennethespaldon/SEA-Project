@@ -194,25 +194,25 @@ function editCardContent(card, playerName, newImageURL) {
     updateAwardsDialog.close();
   });
 
-  // Deleting a player 
-  const deleteBtn = card.querySelector(".delete-btn");
-  deleteBtn.addEventListener("click", (e) => {
-    e.preventDefault();
-
-    // Pushes [player name, {player object}] array into "trash" array
-    trash.push([playerName, players[playerName]]);
-    // Removes playerName from players object
-    delete players[playerName];
-    // Removes the card from html
-    card.remove();
-    // Display updated set of cards
-    showCards();
-  });
-
   cancelUpdatePlayerAwardsBtn.addEventListener("click", (e) => {
     e.preventDefault();
     // clear dialog inputs
     updateAwardsDialog.close();
+  });
+
+  // Deleting a player 
+  const deleteBtn = card.querySelector(".delete-btn");
+  deleteBtn.addEventListener("click", () => {
+    // Pushes [player name, {player object}] array into "trash" array
+    trash.push([playerName, players[playerName]]);
+    // Removes playerName from players object
+    delete players[playerName];
+    console.log(players);
+    console.log(trash);
+    // Removes the card from html
+    card.remove();
+    // Display updated set of cards
+    showCards();
   });
 
   displayPlayerStats(card, playerName);
@@ -223,8 +223,6 @@ function editCardContent(card, playerName, newImageURL) {
   // select "Inspect", then click on the "Console" tab
   console.log("new card:", playerName, "- html: ", card);
 }
-
-// DELETING
 
 // UPDATING
 function updateTeam(card, playerName) {
@@ -575,6 +573,20 @@ dialogCancelBtn.addEventListener("click", cancelDialog);
 
 addPlayerBtn.addEventListener("click", () => {
   addPlayerDialog.showModal();
+});
+
+// UNDO DELETE
+const undoDeleteBtn = document.querySelector(".undo-delete-btn");
+undoDeleteBtn.addEventListener("click", () => {
+  // Removes most recently deleted player in trash array and puts it back in players object
+  // trash.pop() returns an array that looks like [playerName, playerObj]
+  const [playerName, playerObj] = trash.pop();
+  
+  // Add recently deleted player back into plays object
+  players[playerName] = playerObj;
+  showCards();
+  console.log(players);
+  console.log(trash);
 });
 
 // PLAYER CLASS

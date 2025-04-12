@@ -104,13 +104,13 @@
           <div class="player-stats">
             <table class="player-stats-table">
               <tr>
-                <th class="player-team-title" colspan="9">Team<span class="edit-icon">✏️</span></th>
+                <th class="player-team-title" colspan="9">Team<span class="edit-icon">Update</span></th>
               </tr>
               <tr>
                 <td class="player-team" colspan="9">Los Angeles Lakers</td>
               </tr>
               <tr>
-                <th class="regular-season-stats-title" colspan="9">Regular Season<span class="edit-icon update-reg-stats-icon">Edit</span></th>
+                <th class="regular-season-stats-title" colspan="9">Regular Season<span class="edit-icon update-reg-stats-icon">Update</span></th>
               </tr>
               <tr>
                 <th class="regular-season-gp-title">GP</th>
@@ -135,7 +135,7 @@
                 <td class="regular-season-ftpct">73.4</td>
               </tr>
               <tr>
-                <th class="playoffs-stats-title" colspan="9">Playoffs<span class="edit-icon">✏️</span></th>
+                <th class="playoffs-stats-title" colspan="9">Playoffs<span class="edit-icon update-playoff-stats-icon">Update</span></th>
               </tr>
               <tr>
                 <th class="playoffs-ppg-gp">GP</th>
@@ -161,7 +161,7 @@
               </tr>
             </table>
             <div class="player-awards">
-              <h2 class="player-awards-title">Player Awards<span class="edit-icon">✏️</span></h2>
+              <h2 class="player-awards-title">Player Awards<span class="edit-icon update-awards-icon">Update</span></h2>
               <div class="mvp-awards">
                 <p class="mvp-count"></p>
                 <p class="mvp-years"></p>
@@ -211,33 +211,43 @@
           </dialog>
           <dialog class="update-playoff-stats">
             <h2 class="update-title">Most recent playoff game stats</h2>
-            <label for="most-recent-playoff-pts">Points: </label>
-            <input type="number" id="most-recent-playoff-pts" name="most-recent-playoff-pts">
-            <label for="most-recent-playoff-reb">Rebounds: </label>
-            <input type="number" id="most-recent-playoff-reb" name="most-recent-playoff-reb">
-            <label for="most-recent-playoff-ast">Assists: </label>
-            <input type="number" id="most-recent-playoff-ast" name="most-recent-playoff-ast">
-            <label for="most-recent-playoff-stl">Steals: </label>
-            <input type="number" id="most-recent-playoff-stl" name="most-recent-playoff-stl">
-            <label for="most-recent-playoff-blk">Blocks: </label>
-            <input type="number" id="most-recent-playoff-blk" name="most-recent-playoff-blk">
-            <label for="update-playoff-fgpct">New Season FG%: </label>
-            <input type="number" id="update-playoff-fgpct" name="update-playoff-fgpct">
-            <label for="update-playoff-tppct">New Season 3PT%: </label>
-            <input type="number" id="update-playoff-tppct" name="update-playoff-tppct">
-            <label for="update-playoff-ftpct">New Season FT%: </label>
-            <input type="number" id="update-playoff-ftpct" name="update-playoff-ftpct">
+            <form class="update-playoff-stats-form">
+              <label for="most-recent-playoff-pts">Points: </label>
+              <input type="number" id="most-recent-playoff-pts" name="most-recent-playoff-pts">
+              <label for="most-recent-playoff-reb">Rebounds: </label>
+              <input type="number" id="most-recent-playoff-reb" name="most-recent-playoff-reb">
+              <label for="most-recent-playoff-ast">Assists: </label>
+              <input type="number" id="most-recent-playoff-ast" name="most-recent-playoff-ast">
+              <label for="most-recent-playoff-stl">Steals: </label>
+              <input type="number" id="most-recent-playoff-stl" name="most-recent-playoff-stl">
+              <label for="most-recent-playoff-blk">Blocks: </label>
+              <input type="number" id="most-recent-playoff-blk" name="most-recent-playoff-blk">
+              <label for="update-playoff-fgpct">New Playoff FG%: </label>
+              <input type="number" id="update-playoff-fgpct" name="update-playoff-fgpct">
+              <label for="update-playoff-tppct">New Playoff 3PT%: </label>
+              <input type="number" id="update-playoff-tppct" name="update-playoff-tppct">
+              <label for="update-playoff-ftpct">New Playoff FT%: </label>
+              <input type="number" id="update-playoff-ftpct" name="update-playoff-ftpct">
+
+              <button class="update-playoff-stats-btn">Update</button>
+              <button class="cancel-update-playoff-stats-btn">Cancel</button>
+            </form>
           </dialog>
           <dialog class="update-player-awards">
             <h2 class="update-title">Add awards</h2>
-            <label for="update-mvp">Update MVPs: </label>
-            <input type="text" id="update-mvp" name="update-mvp" placeholder="Year">
-            <label for="update-dpoy">Update DPOYs: </label>
-            <input type="text" id="update-dpoy" name="update-dpoy" placeholder="Year">
-            <label for="update-all-nba">Update All-NBAs: </label>
-            <input type="text" id="update-all-nba" name="update-all-nba" placeholder="Year">
-            <label for="update-all-def">Update All-Def: </label>
-            <input type="text" id="update-all-def" name="update-all-def" placeholder="Year">
+            <form class="update-awards-form">
+              <label for="update-mvp">Update MVPs: </label>
+              <input type="text" id="update-mvp" name="update-mvp" placeholder="Year">
+              <label for="update-dpoy">Update DPOYs: </label>
+              <input type="text" id="update-dpoy" name="update-dpoy" placeholder="Year">
+              <label for="update-all-nba">Update All-NBAs: </label>
+              <input type="text" id="update-all-nba" name="update-all-nba" placeholder="Year">
+              <label for="update-all-def">Update All-Def: </label>
+              <input type="text" id="update-all-def" name="update-all-def" placeholder="Year">
+
+              <button class="update-player-awards-btn">Update</button>
+              <button class="cancel-update-player-awards-btn">Cancel</button>
+            </form>
           </dialog>
         </div>
         <h2 class="player-name">Player Name</h2>

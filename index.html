@@ -12,9 +12,6 @@
     <header class="main-header">
       <h1 class="title">NBA Stats</h1>
       <aside>
-        <button class="add-player-btn">+ Add Player</button>
-        <button class="undo-delete-btn">Undo Delete</button>
-
         <label for="sort-players">Sort: </label>
         <select id="sort-players" name="sort-players">
           <option value="unsorted">--- Sort players by ---</option>
@@ -47,6 +44,12 @@
             <option value="descending-playoffs-bpg">Blocks per game</option>
           </optgroup>
         </select>
+
+        <label for="search-player">Search Player</label>
+        <input type="search" id="search-player" name="search-player">
+
+        <button class="add-player-btn">+ Add Player</button>
+        <button class="undo-delete-btn">Undo Delete</button>
       </aside>
     </header>
     <div id="card-container">
@@ -131,7 +134,7 @@
         </div>
       </form>
     </dialog>
-    <div class="card" style="display: none">
+    <div class="card hidden">
       <div class="card-content">
         <div class="player-img-stats-container">
           <img src="https://cdn.nba.com/headshots/nba/latest/1040x760/1642379.png" alt="Player image" />

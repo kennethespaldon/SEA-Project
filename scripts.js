@@ -578,10 +578,13 @@ addPlayerBtn.addEventListener("click", () => {
 // UNDO DELETE
 const undoDeleteBtn = document.querySelector(".undo-delete-btn");
 undoDeleteBtn.addEventListener("click", () => {
+  if(trash.length === 0) {
+    return;
+  }
   // Removes most recently deleted player in trash array and puts it back in players object
   // trash.pop() returns an array that looks like [playerName, playerObj]
   const [playerName, playerObj] = trash.pop();
-  
+
   // Add recently deleted player back into plays object
   players[playerName] = playerObj;
   showCards();

@@ -85,6 +85,7 @@ function showCards() {
   }
 }
 
+// SHOW / HIDE PLAYER STATS/AWARDS
 function toggleButtonState(e, nextCard) {
   const playerInfo = nextCard.querySelector(".player-stats");
   playerInfo.classList.toggle("hidden");
@@ -101,10 +102,10 @@ function editCardContent(card, playerName, newImageURL) {
   cardImage.alt = playerName;
 
 
-  // Refactor outside of editCardContent
   const updateRegStatsDialog = card.querySelector(".update-regular-stats");
   const updateRegStatsIcon = card.querySelector(".update-reg-stats-icon");
 
+  // Updating regular season stats
   updateRegStatsIcon.addEventListener("click", () => {
     updateRegStatsDialog.showModal();
   });
@@ -113,23 +114,41 @@ function editCardContent(card, playerName, newImageURL) {
   updateRegStatsBtn.addEventListener("click", (e) => {
     e.preventDefault();
     updateRegularSeasonStats(card, playerName);
+    console.log(players); // remove this 
     displayUpdatedRegSznStats(card, playerName);
-    console.log(players);
-
-    // Clear dialog inputs
     clearRegularSeasonUpdateInputs(card);
-
     updateRegStatsDialog.close();
   });
 
   const cancelUpdateRegStatsBtn = card.querySelector(".cancel-update-regular-stats-btn");
   cancelUpdateRegStatsBtn.addEventListener("click", (e) => {
     e.preventDefault();
-
-    // Clear update dialog inputs
     clearRegularSeasonUpdateInputs(card);
-
     updateRegStatsDialog.close();
+  });
+
+  // Updating playoff stats
+  const updatePlayoffStatsDialog = card.querySelector(".update-playoff-stats");
+  const updatePlayoffStatsIcon = card.querySelector(".update-playoff-stats-icon");
+
+  updatePlayoffStatsIcon.addEventListener("click", () => {
+    updatePlayoffStatsDialog.showModal();
+  });
+
+  const updatePlayoffStatsBtn = card.querySelector(".update-playoff-stats-btn");
+  updatePlayoffStatsBtn.addEventListener("click", (e) => {
+    e.preventDefault();
+    updatePlayoffStats(card, playerName); 
+    displayUpdatedPlayoffStats(card, playerName);
+    clearPlayoffUpdateInputs(card);
+    updatePlayoffStatsDialog.close();
+  });
+
+  const cancelUpdatePlayoffStatsBtn = card.querySelector(".cancel-update-playoff-stats-btn");
+  cancelUpdatePlayoffStatsBtn.addEventListener("click", (e) => {
+    e.preventDefault();
+    clearPlayoffUpdateInputs(card);
+    updatePlayoffStatsDialog.close();
   });
 
   displayPlayerStats(card, playerName);
@@ -141,7 +160,7 @@ function editCardContent(card, playerName, newImageURL) {
   console.log("new card:", playerName, "- html: ", card);
 }
 
-// Updating stats
+// UPDATING
 function updateRegularSeasonStats(card, playerName) {
   const mostRecentRegPts = card.querySelector("#most-recent-gm-pts");
   const mostRecentRegReb = card.querySelector("#most-recent-gm-reb");
@@ -176,6 +195,40 @@ function updateRegularSeasonStats(card, playerName) {
   regSzn.freeThrowPct = Number(Number(newRegFtPct.value).toFixed(1));
 }
 
+function updatePlayoffStats(card, playerName) {
+  const mostRecentPlayoffPts = card.querySelector("#most-recent-playoff-pts");
+  const mostRecentPlayoffReb = card.querySelector("#most-recent-playoff-reb");
+  const mostRecentPlayoffAst = card.querySelector("#most-recent-playoff-ast");
+  const mostRecentPlayoffStl = card.querySelector("#most-recent-playoff-stl");
+  const mostRecentPlayoffBlk = card.querySelector("#most-recent-playoff-blk");
+  const newPlayoffFgPct = card.querySelector("#update-playoff-fgpct");
+  const newPlayoffTpPct = card.querySelector("#update-playoff-tppct");
+  const newPlayoffFtPct = card.querySelector("#update-playoff-ftpct");
+
+  const playoffs = players[playerName].stats.playoffs;
+
+  // Update player object with new stats
+  playoffs.gamesPlayed += 1;
+  playoffs.pointsPerGame = ((playoffs.pointsPerGame * (playoffs.gamesPlayed - 1)) + (Number(mostRecentPlayoffPts.value))) / (playoffs.gamesPlayed);
+  playoffs.pointsPerGame = Number(playoffs.pointsPerGame.toFixed(1));
+
+  playoffs.reboundsPerGame = ((playoffs.reboundsPerGame * (playoffs.gamesPlayed - 1)) + (Number(mostRecentPlayoffReb.value))) / (playoffs.gamesPlayed);
+  playoffs.reboundsPerGame = Number(playoffs.reboundsPerGame.toFixed(1));
+
+  playoffs.assistsPerGame = ((playoffs.assistsPerGame * (playoffs.gamesPlayed - 1)) + (Number(mostRecentPlayoffAst.value))) / (playoffs.gamesPlayed);
+  playoffs.assistsPerGame = Number(playoffs.assistsPerGame.toFixed(1));
+
+  playoffs.stealsPerGame = ((playoffs.stealsPerGame * (playoffs.gamesPlayed - 1)) + (Number(mostRecentPlayoffStl.value))) / (playoffs.gamesPlayed);
+  playoffs.stealsPerGame = Number(playoffs.stealsPerGame.toFixed(1));
+
+  playoffs.blocksPerGame = ((playoffs.blocksPerGame * (playoffs.gamesPlayed - 1)) + (Number(mostRecentPlayoffBlk.value))) / (playoffs.gamesPlayed);
+  playoffs.blocksPerGame = Number(playoffs.blocksPerGame.toFixed(1));
+
+  playoffs.fieldGoalPct = Number(Number(newPlayoffFgPct.value).toFixed(1));
+  playoffs.threePointPct = Number(Number(newPlayoffTpPct.value).toFixed(1));
+  playoffs.freeThrowPct = Number(Number(newPlayoffFtPct.value).toFixed(1));
+}
+
 // Clearing regular season update inputs after update/cancellation
 function clearRegularSeasonUpdateInputs(card) {
   card.querySelector("#most-recent-gm-pts").value = "";
@@ -188,8 +241,19 @@ function clearRegularSeasonUpdateInputs(card) {
   card.querySelector("#update-regular-ftpct").value = "";
 }
 
+function clearPlayoffUpdateInputs(card) {
+  card.querySelector("#most-recent-playoff-pts").value = "";
+  card.querySelector("#most-recent-playoff-reb").value = "";
+  card.querySelector("#most-recent-playoff-ast").value = "";
+  card.querySelector("#most-recent-playoff-stl").value = "";
+  card.querySelector("#most-recent-playoff-blk").value = "";
+  card.querySelector("#update-playoff-fgpct").value = "";
+  card.querySelector("#update-playoff-tppct").value = "";
+  card.querySelector("#update-playoff-ftpct").value = "";
+}
 
-// Displaying stats/awards
+
+// DISPLAYING STATS/AWARDS
 function displayUpdatedRegSznStats(card, playerName) {
   const player = players[playerName];
   const regSznStats = player.stats.regularSeason;
@@ -212,6 +276,30 @@ function displayUpdatedRegSznStats(card, playerName) {
   regSznFgPct.textContent = regSznStats.fieldGoalPct;
   regSznTpPct.textContent = regSznStats.threePointPct;
   regSznFtPct.textContent = regSznStats.freeThrowPct;
+}
+
+function displayUpdatedPlayoffStats(card, playerName) {
+  const player = players[playerName];
+  const playoffStats = player.stats.playoffs;
+  const playoffGp = card.querySelector(".playoffs-gp");
+  const playoffPpg = card.querySelector(".playoffs-ppg");
+  const playoffRpg = card.querySelector(".playoffs-rpg");
+  const playoffApg = card.querySelector(".playoffs-apg");
+  const playoffSpg = card.querySelector(".playoffs-spg");
+  const playoffBpg = card.querySelector(".playoffs-bpg");
+  const playoffFgPct = card.querySelector(".playoffs-fgpct");
+  const playoffTpPct = card.querySelector(".playoffs-tppct");
+  const playoffFtPct = card.querySelector(".playoffs-ftpct");
+
+  playoffGp.textContent = playoffStats.gamesPlayed;
+  playoffPpg.textContent = playoffStats.pointsPerGame;
+  playoffRpg.textContent = playoffStats.reboundsPerGame;
+  playoffApg.textContent = playoffStats.assistsPerGame;
+  playoffSpg.textContent = playoffStats.stealsPerGame;
+  playoffBpg.textContent = playoffStats.blocksPerGame;
+  playoffFgPct.textContent = playoffStats.fieldGoalPct;
+  playoffTpPct.textContent = playoffStats.threePointPct;
+  playoffFtPct.textContent = playoffStats.freeThrowPct;
 }
 
 function displayPlayerStats(card, name) {
@@ -351,6 +439,7 @@ function clearDialogInputs() {
   playerImageInput.value = "";
 }
 
+// ADDING A PLAYER 
 function addPlayerStats(name) {
   const player = players[name];
   const regularSeasonStats = player.stats.regularSeason;
@@ -445,7 +534,7 @@ addPlayerBtn.addEventListener("click", () => {
   addPlayerDialog.showModal();
 });
 
-// Player class related
+// PLAYER CLASS
 function createPlayer() {
   return new Player();
 }

@@ -13,7 +13,40 @@
       <h1 class="title">NBA Stats</h1>
       <aside>
         <button class="add-player-btn">+ Add Player</button>
-        <button class="undo-delete">Undo Delete</button>
+        <button class="undo-delete-btn">Undo Delete</button>
+
+        <label for="sort-players">Sort: </label>
+        <select id="sort-players" name="sort-players">
+          <option value="unsorted">--- Sort players by ---</option>
+          <optgroup label="Regular Season (Ascending)">
+            <option value="ascending-reg-szn-ppg">Points per game</option>
+            <option value="ascending-reg-szn-rpg">Rebounds per game</option>
+            <option value="ascending-reg-szn-apg">Assists per game</option>
+            <option value="ascending-reg-szn-spg">Steals per game</option>
+            <option value="ascending-reg-szn-bpg">Blocks per game</option>
+          </optgroup>
+          <optgroup label="Regular Season (Descending)">
+            <option value="descending-reg-szn-ppg">Points per game</option>
+            <option value="descending-reg-szn-rpg">Rebounds per game</option>
+            <option value="descending-reg-szn-apg">Assists per game</option>
+            <option value="descending-reg-szn-spg">Steals per game</option>
+            <option value="descending-reg-szn-bpg">Blocks per game</option>
+          </optgroup>
+          <optgroup label="Playoffs (Ascending)">
+            <option value="ascending-playoffs-ppg">Points per game</option>
+            <option value="ascending-playoffs-rpg">Rebounds per game</option>
+            <option value="ascending-playoffs-apg">Assists per game</option>
+            <option value="ascending-playoffs-spg">Steals per game</option>
+            <option value="ascending-playoffs-bpg">Blocks per game</option>
+          </optgroup>
+          <optgroup label="Playoffs (Descending)">
+            <option value="descending-playoffs-ppg">Points per game</option>
+            <option value="descending-playoffs-rpg">Rebounds per game</option>
+            <option value="descending-playoffs-apg">Assists per game</option>
+            <option value="descending-playoffs-spg">Steals per game</option>
+            <option value="descending-playoffs-bpg">Blocks per game</option>
+          </optgroup>
+        </select>
       </aside>
     </header>
     <div id="card-container">
@@ -102,7 +135,7 @@
       <div class="card-content">
         <div class="player-img-stats-container">
           <img src="https://cdn.nba.com/headshots/nba/latest/1040x760/1642379.png" alt="Player image" />
-          <div class="player-stats hidden">
+          <div class="player-stats">
             <table class="player-stats-table">
               <tr>
                 <th class="player-team-title" colspan="9">Team<span class="edit-icon update-team-icon">Update</span></th>

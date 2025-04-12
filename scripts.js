@@ -95,7 +95,7 @@ function toggleButtonState(e, nextCard) {
 }
 
 function editCardContent(card, playerName, newImageURL) {
-  card.style.display = "block";
+  card.classList.remove("hidden");
 
   const cardHeader = card.querySelector(".player-name");
   cardHeader.textContent = playerName;
@@ -104,6 +104,8 @@ function editCardContent(card, playerName, newImageURL) {
   cardImage.src = newImageURL;
   cardImage.alt = playerName;
 
+  const uniquePlayerId = `${playerName.split(" ").map(name => name.toLowerCase()).join("-")}-id`;
+  card.id = uniquePlayerId;
 
   const updateRegStatsDialog = card.querySelector(".update-regular-stats");
   const updateRegStatsIcon = card.querySelector(".update-reg-stats-icon");
@@ -691,6 +693,27 @@ sortPlayersDropdown.addEventListener("change", (e) => {
 });
 
 // SEARCHING
+const searchPlayerInput = document.querySelector("#search-player");
+searchPlayerInput.addEventListener("change", (e) => {
+  const searchVal = e.currentTarget.value.trim();
+
+  // When search input is empty, show all cards
+  if(searchVal === "") {
+    showCards();
+    return;
+  }
+
+  const playerCardId = `${searchVal.split(" ").map(name => name.toLowerCase()).join("-")}-id`;
+  const cardContainer = document.getElementById("card-container");
+  const cards = cardContainer.children;
+
+  // Hide cards that don't match the searched player
+  for (const card of cards) {
+    if (!(card.id === playerCardId)) {
+      card.classList.add("hidden");
+    }
+  }
+});
 
 
 // PLAYER CLASS

@@ -13,6 +13,7 @@
       <h1 class="title">NBA Stats</h1>
       <aside>
         <button class="add-player-btn">+ Add Player</button>
+        <button class="undo-delete">Undo Delete</button>
       </aside>
     </header>
     <div id="card-container">
@@ -101,10 +102,10 @@
       <div class="card-content">
         <div class="player-img-stats-container">
           <img src="https://cdn.nba.com/headshots/nba/latest/1040x760/1642379.png" alt="Player image" />
-          <div class="player-stats">
+          <div class="player-stats hidden">
             <table class="player-stats-table">
               <tr>
-                <th class="player-team-title" colspan="9">Team<span class="edit-icon">Update</span></th>
+                <th class="player-team-title" colspan="9">Team<span class="edit-icon update-team-icon">Update</span></th>
               </tr>
               <tr>
                 <td class="player-team" colspan="9">Los Angeles Lakers</td>
@@ -184,6 +185,9 @@
           <dialog class="update-team">
             <label for="update-team-input" class="update-title">New team</label>
             <input type="text" id="update-team-input" name="update-team-input">
+
+            <button class="update-team-btn">Update</button>
+            <button class="cancel-update-team-btn">Cancel</button>
           </dialog>
           <dialog class="update-regular-stats">
             <h2 class="update-title">Most recent game stats</h2>
@@ -252,6 +256,7 @@
         </div>
         <h2 class="player-name">Player Name</h2>
         <button class="stats-awards-btn">Stats / Awards</button>
+        <button class="delete-btn">Delete</button>
       </div>
     </div>
     <!-- <div class="footer">

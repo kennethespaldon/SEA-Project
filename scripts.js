@@ -100,6 +100,38 @@ function editCardContent(card, playerName, newImageURL) {
   cardImage.src = newImageURL;
   cardImage.alt = playerName;
 
+
+  // Refactor outside of editCardContent
+  const updateRegStatsDialog = card.querySelector(".update-regular-stats");
+  const updateRegStatsIcon = card.querySelector(".update-reg-stats-icon");
+
+  updateRegStatsIcon.addEventListener("click", () => {
+    updateRegStatsDialog.showModal();
+  });
+
+  const updateRegStatsBtn = card.querySelector(".update-regular-stats-btn");
+  updateRegStatsBtn.addEventListener("click", (e) => {
+    e.preventDefault();
+    updateRegularSeasonStats(card, playerName);
+    displayUpdatedRegSznStats(card, playerName);
+    console.log(players);
+
+    // Clear dialog inputs
+    clearRegularSeasonUpdateInputs(card);
+
+    updateRegStatsDialog.close();
+  });
+
+  const cancelUpdateRegStatsBtn = card.querySelector(".cancel-update-regular-stats-btn");
+  cancelUpdateRegStatsBtn.addEventListener("click", (e) => {
+    e.preventDefault();
+
+    // Clear update dialog inputs
+    clearRegularSeasonUpdateInputs(card);
+
+    updateRegStatsDialog.close();
+  });
+
   displayPlayerStats(card, playerName);
   displayPlayerAwards(card, playerName);
 
@@ -107,6 +139,79 @@ function editCardContent(card, playerName, newImageURL) {
   // View the output by right clicking on your website,
   // select "Inspect", then click on the "Console" tab
   console.log("new card:", playerName, "- html: ", card);
+}
+
+// Updating stats
+function updateRegularSeasonStats(card, playerName) {
+  const mostRecentRegPts = card.querySelector("#most-recent-gm-pts");
+  const mostRecentRegReb = card.querySelector("#most-recent-gm-reb");
+  const mostRecentRegAst = card.querySelector("#most-recent-gm-ast");
+  const mostRecentRegStl = card.querySelector("#most-recent-gm-stl");
+  const mostRecentRegBlk = card.querySelector("#most-recent-gm-blk");
+  const newRegFgPct = card.querySelector("#update-regular-fgpct");
+  const newRegTpPct = card.querySelector("#update-regular-tppct");
+  const newRegFtPct = card.querySelector("#update-regular-ftpct");
+
+  const regSzn = players[playerName].stats.regularSeason;
+
+  // Update player object with new stats
+  regSzn.gamesPlayed += 1;
+  regSzn.pointsPerGame = ((regSzn.pointsPerGame * (regSzn.gamesPlayed - 1)) + (Number(mostRecentRegPts.value))) / (regSzn.gamesPlayed);
+  regSzn.pointsPerGame = Number(regSzn.pointsPerGame.toFixed(1));
+
+  regSzn.reboundsPerGame = ((regSzn.reboundsPerGame * (regSzn.gamesPlayed - 1)) + (Number(mostRecentRegReb.value))) / (regSzn.gamesPlayed);
+  regSzn.reboundsPerGame = Number(regSzn.reboundsPerGame.toFixed(1));
+
+  regSzn.assistsPerGame = ((regSzn.assistsPerGame * (regSzn.gamesPlayed - 1)) + (Number(mostRecentRegAst.value))) / (regSzn.gamesPlayed);
+  regSzn.assistsPerGame = Number(regSzn.assistsPerGame.toFixed(1));
+
+  regSzn.stealsPerGame = ((regSzn.stealsPerGame * (regSzn.gamesPlayed - 1)) + (Number(mostRecentRegStl.value))) / (regSzn.gamesPlayed);
+  regSzn.stealsPerGame = Number(regSzn.stealsPerGame.toFixed(1));
+
+  regSzn.blocksPerGame = ((regSzn.blocksPerGame * (regSzn.gamesPlayed - 1)) + (Number(mostRecentRegBlk.value))) / (regSzn.gamesPlayed);
+  regSzn.blocksPerGame = Number(regSzn.blocksPerGame.toFixed(1));
+
+  regSzn.fieldGoalPct = Number(Number(newRegFgPct.value).toFixed(1));
+  regSzn.threePointPct = Number(Number(newRegTpPct.value).toFixed(1));
+  regSzn.freeThrowPct = Number(Number(newRegFtPct.value).toFixed(1));
+}
+
+// Clearing regular season update inputs after update/cancellation
+function clearRegularSeasonUpdateInputs(card) {
+  card.querySelector("#most-recent-gm-pts").value = "";
+  card.querySelector("#most-recent-gm-reb").value = "";
+  card.querySelector("#most-recent-gm-ast").value = "";
+  card.querySelector("#most-recent-gm-stl").value = "";
+  card.querySelector("#most-recent-gm-blk").value = "";
+  card.querySelector("#update-regular-fgpct").value = "";
+  card.querySelector("#update-regular-tppct").value = "";
+  card.querySelector("#update-regular-ftpct").value = "";
+}
+
+
+// Displaying stats/awards
+function displayUpdatedRegSznStats(card, playerName) {
+  const player = players[playerName];
+  const regSznStats = player.stats.regularSeason;
+  const regSznGp = card.querySelector(".regular-season-gp");
+  const regSznPpg = card.querySelector(".regular-season-ppg");
+  const regSznRpg = card.querySelector(".regular-season-rpg");
+  const regSznApg = card.querySelector(".regular-season-apg");
+  const regSznSpg = card.querySelector(".regular-season-spg");
+  const regSznBpg = card.querySelector(".regular-season-bpg");
+  const regSznFgPct = card.querySelector(".regular-season-fgpct");
+  const regSznTpPct = card.querySelector(".regular-season-tppct");
+  const regSznFtPct = card.querySelector(".regular-season-ftpct");
+
+  regSznGp.textContent = regSznStats.gamesPlayed;
+  regSznPpg.textContent = regSznStats.pointsPerGame;
+  regSznRpg.textContent = regSznStats.reboundsPerGame;
+  regSznApg.textContent = regSznStats.assistsPerGame;
+  regSznSpg.textContent = regSznStats.stealsPerGame;
+  regSznBpg.textContent = regSznStats.blocksPerGame;
+  regSznFgPct.textContent = regSznStats.fieldGoalPct;
+  regSznTpPct.textContent = regSznStats.threePointPct;
+  regSznFtPct.textContent = regSznStats.freeThrowPct;
 }
 
 function displayPlayerStats(card, name) {
@@ -212,8 +317,7 @@ function removeLastCard() {
   showCards(); // Call showCards again to refresh
 }
 
-// My own functions...
-
+// Dialog-related functions
 // Getting inputs ready for next entries
 function clearDialogInputs() {
   playerNameInput.value = "";
@@ -341,8 +445,7 @@ addPlayerBtn.addEventListener("click", () => {
   addPlayerDialog.showModal();
 });
 
-// add image to Player object
-// add image input (takes image url) to dialog
+// Player class related
 function createPlayer() {
   return new Player();
 }

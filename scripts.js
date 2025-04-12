@@ -64,6 +64,9 @@ const dpoyInput = document.querySelector("#dpoy-input");
 const allNbaInput = document.querySelector("#all-nba-input");
 const allDefenseInput = document.querySelector("#all-defense-input");
 
+// Array that holds player objects that were deleted
+const trash = [];
+
 // This function adds cards the page to display the data in the array
 function showCards() {
   const cardContainer = document.getElementById("card-container");
@@ -191,6 +194,21 @@ function editCardContent(card, playerName, newImageURL) {
     updateAwardsDialog.close();
   });
 
+  // Deleting a player 
+  const deleteBtn = card.querySelector(".delete-btn");
+  deleteBtn.addEventListener("click", (e) => {
+    e.preventDefault();
+
+    // Pushes [player name, {player object}] array into "trash" array
+    trash.push([playerName, players[playerName]]);
+    // Removes playerName from players object
+    delete players[playerName];
+    // Removes the card from html
+    card.remove();
+    // Display updated set of cards
+    showCards();
+  });
+
   cancelUpdatePlayerAwardsBtn.addEventListener("click", (e) => {
     e.preventDefault();
     // clear dialog inputs
@@ -205,6 +223,8 @@ function editCardContent(card, playerName, newImageURL) {
   // select "Inspect", then click on the "Console" tab
   console.log("new card:", playerName, "- html: ", card);
 }
+
+// DELETING
 
 // UPDATING
 function updateTeam(card, playerName) {
@@ -428,7 +448,7 @@ function displayTeam(card, name) {
 // This calls the addCards() function when the page is first loaded
 document.addEventListener("DOMContentLoaded", showCards);
 
-// Dialog-related functions
+// CLEARING DIALOG INPUTS
 // Getting inputs ready for next entries
 function clearDialogInputs() {
   playerNameInput.value = "";

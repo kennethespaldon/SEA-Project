@@ -19,7 +19,6 @@
     </div>
     <dialog class="add-player-dialog">
       <form class="add-player-form">
-        <!-- Remember to .preventDefault() on buttons!! -->
         <div class="player-name-input-container">
           <label for="player-name-input">Player Name: </label>
           <input type="text" id="player-name-input" name="player-name-input">
@@ -111,7 +110,7 @@
                 <td class="player-team" colspan="9">Los Angeles Lakers</td>
               </tr>
               <tr>
-                <th class="regular-season-stats-title" colspan="9">Regular Season<span class="edit-icon">✏️</span></th>
+                <th class="regular-season-stats-title" colspan="9">Regular Season<span class="edit-icon update-reg-stats-icon">Edit</span></th>
               </tr>
               <tr>
                 <th class="regular-season-gp-title">GP</th>
@@ -164,23 +163,82 @@
             <div class="player-awards">
               <h2 class="player-awards-title">Player Awards<span class="edit-icon">✏️</span></h2>
               <div class="mvp-awards">
-                <p class="mvp-count">10x Most Valuable Player</p>
-                <p class="mvp-years">(2004, 2005, 2006, 2007)</p>
+                <p class="mvp-count"></p>
+                <p class="mvp-years"></p>
               </div>
               <div class="dpoy-awards">
-                <p class="dpoy-count">0x Defensive Player of the Year</p>
-                <p class="dpoy-years">(2004, 2005, 2006, 2007)</p>
+                <p class="dpoy-count"></p>
+                <p class="dpoy-years"></p>
               </div>
               <div class="all-nba-awards">
-                <p class="all-nba-count">20x All-NBA Selections</p>
-                <p class="all-nba-years">(2004, 2005, 2006, 2007)</p>
+                <p class="all-nba-count"></p>
+                <p class="all-nba-years"></p>
               </div>
               <div class="all-defensive-awards">
-                <p class="all-defensive-count">6x All-Defensive Selections</p>
-                <p class="all-defensive-years">(2004, 2005, 2006, 2007)</p>
+                <p class="all-defensive-count"></p>
+                <p class="all-defensive-years"></p>
               </div>
             </div>
           </div>
+
+          <dialog class="update-team">
+            <label for="update-team-input" class="update-title">New team</label>
+            <input type="text" id="update-team-input" name="update-team-input">
+          </dialog>
+          <dialog class="update-regular-stats">
+            <h2 class="update-title">Most recent game stats</h2>
+            <form class="update-regular-stats-form">
+              <label for="most-recent-gm-pts">Points: </label>
+              <input type="number" id="most-recent-gm-pts" name="most-recent-gm-pts">
+              <label for="most-recent-gm-reb">Rebounds: </label>
+              <input type="number" id="most-recent-gm-reb" name="most-recent-gm-reb">
+              <label for="most-recent-gm-ast">Assists: </label>
+              <input type="number" id="most-recent-gm-ast" name="most-recent-gm-ast">
+              <label for="most-recent-gm-stl">Steals: </label>
+              <input type="number" id="most-recent-gm-stl" name="most-recent-gm-stl">
+              <label for="most-recent-gm-blk">Blocks: </label>
+              <input type="number" id="most-recent-gm-blk" name="most-recent-gm-blk">
+              <label for="update-regular-fgpct">New Season FG%: </label>
+              <input type="number" id="update-regular-fgpct" name="update-regular-fgpct">
+              <label for="update-regular-tppct">New Season 3PT%: </label>
+              <input type="number" id="update-regular-tppct" name="update-regular-tppct">
+              <label for="update-regular-ftpct">New Season FT%: </label>
+              <input type="number" id="update-regular-ftpct" name="update-regular-ftpct">
+
+              <button class="update-regular-stats-btn">Update</button>
+              <button class="cancel-update-regular-stats-btn">Cancel</button>
+            </form>
+          </dialog>
+          <dialog class="update-playoff-stats">
+            <h2 class="update-title">Most recent playoff game stats</h2>
+            <label for="most-recent-playoff-pts">Points: </label>
+            <input type="number" id="most-recent-playoff-pts" name="most-recent-playoff-pts">
+            <label for="most-recent-playoff-reb">Rebounds: </label>
+            <input type="number" id="most-recent-playoff-reb" name="most-recent-playoff-reb">
+            <label for="most-recent-playoff-ast">Assists: </label>
+            <input type="number" id="most-recent-playoff-ast" name="most-recent-playoff-ast">
+            <label for="most-recent-playoff-stl">Steals: </label>
+            <input type="number" id="most-recent-playoff-stl" name="most-recent-playoff-stl">
+            <label for="most-recent-playoff-blk">Blocks: </label>
+            <input type="number" id="most-recent-playoff-blk" name="most-recent-playoff-blk">
+            <label for="update-playoff-fgpct">New Season FG%: </label>
+            <input type="number" id="update-playoff-fgpct" name="update-playoff-fgpct">
+            <label for="update-playoff-tppct">New Season 3PT%: </label>
+            <input type="number" id="update-playoff-tppct" name="update-playoff-tppct">
+            <label for="update-playoff-ftpct">New Season FT%: </label>
+            <input type="number" id="update-playoff-ftpct" name="update-playoff-ftpct">
+          </dialog>
+          <dialog class="update-player-awards">
+            <h2 class="update-title">Add awards</h2>
+            <label for="update-mvp">Update MVPs: </label>
+            <input type="text" id="update-mvp" name="update-mvp" placeholder="Year">
+            <label for="update-dpoy">Update DPOYs: </label>
+            <input type="text" id="update-dpoy" name="update-dpoy" placeholder="Year">
+            <label for="update-all-nba">Update All-NBAs: </label>
+            <input type="text" id="update-all-nba" name="update-all-nba" placeholder="Year">
+            <label for="update-all-def">Update All-Def: </label>
+            <input type="text" id="update-all-def" name="update-all-def" placeholder="Year">
+          </dialog>
         </div>
         <h2 class="player-name">Player Name</h2>
         <button class="stats-awards-btn">Stats / Awards</button>

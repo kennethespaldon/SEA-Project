@@ -114,8 +114,7 @@ function editCardContent(card, playerName, newImageURL) {
   updateRegStatsBtn.addEventListener("click", (e) => {
     e.preventDefault();
     updateRegularSeasonStats(card, playerName);
-    console.log(players); // remove this 
-    displayUpdatedRegSznStats(card, playerName);
+    displayPlayerStats(card, playerName);
     clearRegularSeasonUpdateInputs(card);
     updateRegStatsDialog.close();
   });
@@ -130,7 +129,6 @@ function editCardContent(card, playerName, newImageURL) {
   // Updating playoff stats
   const updatePlayoffStatsDialog = card.querySelector(".update-playoff-stats");
   const updatePlayoffStatsIcon = card.querySelector(".update-playoff-stats-icon");
-
   updatePlayoffStatsIcon.addEventListener("click", () => {
     updatePlayoffStatsDialog.showModal();
   });
@@ -139,7 +137,7 @@ function editCardContent(card, playerName, newImageURL) {
   updatePlayoffStatsBtn.addEventListener("click", (e) => {
     e.preventDefault();
     updatePlayoffStats(card, playerName); 
-    displayUpdatedPlayoffStats(card, playerName);
+    displayPlayerStats(card, playerName);
     clearPlayoffUpdateInputs(card);
     updatePlayoffStatsDialog.close();
   });
@@ -149,6 +147,31 @@ function editCardContent(card, playerName, newImageURL) {
     e.preventDefault();
     clearPlayoffUpdateInputs(card);
     updatePlayoffStatsDialog.close();
+  });
+
+  // Updating awards
+  const updateAwardsDialog = card.querySelector(".update-player-awards");
+  const updateAwardsBtn = card.querySelector(".update-awards-icon");
+  updateAwardsBtn.addEventListener("click", () => {
+    updateAwardsDialog.showModal();
+  });
+
+  const updatePlayerAwardsBtn = card.querySelector(".update-player-awards-btn");
+  const cancelUpdatePlayerAwardsBtn = card.querySelector(".cancel-update-player-awards-btn");
+  updatePlayerAwardsBtn.addEventListener("click", (e) => {
+    e.preventDefault();
+    // push current year to "yearsAwarded" array for corresponding award
+    updatePlayerAwards(card, playerName);
+    // display newly updated award arrays
+    displayPlayerAwards(card, playerName);
+    // clear dialog inputs for next entries
+    updateAwardsDialog.close();
+  });
+
+  cancelUpdatePlayerAwardsBtn.addEventListener("click", (e) => {
+    e.preventDefault();
+    // clear dialog inputs
+    updateAwardsDialog.close();
   });
 
   displayPlayerStats(card, playerName);
@@ -229,6 +252,21 @@ function updatePlayoffStats(card, playerName) {
   playoffs.freeThrowPct = Number(Number(newPlayoffFtPct.value).toFixed(1));
 }
 
+function updatePlayerAwards(card, playerName) {
+  const player = players[playerName];
+  const playerAwards = player.awards;
+  const mvpInput = card.querySelector("#update-mvp");
+  const dpoyInput = card.querySelector("#update-dpoy");
+  const allNbaInput = card.querySelector("#update-all-nba");
+  const allDefInput = card.querySelector("#update-all-def");
+
+  // Push year input to "yearsAwarded" arrays of corresponding award in "players" object
+  playerAwards.mvp.yearsAwarded.push(Number(mvpInput.value));
+  playerAwards.dpoy.yearsAwarded.push(Number(dpoyInput.value));
+  playerAwards.allNBA.yearsAwarded.push(Number(allNbaInput.value));
+  playerAwards.allDefense.yearsAwarded.push(Number(allDefInput.value));
+}
+
 // Clearing regular season update inputs after update/cancellation
 function clearRegularSeasonUpdateInputs(card) {
   card.querySelector("#most-recent-gm-pts").value = "";
@@ -252,56 +290,7 @@ function clearPlayoffUpdateInputs(card) {
   card.querySelector("#update-playoff-ftpct").value = "";
 }
 
-
 // DISPLAYING STATS/AWARDS
-function displayUpdatedRegSznStats(card, playerName) {
-  const player = players[playerName];
-  const regSznStats = player.stats.regularSeason;
-  const regSznGp = card.querySelector(".regular-season-gp");
-  const regSznPpg = card.querySelector(".regular-season-ppg");
-  const regSznRpg = card.querySelector(".regular-season-rpg");
-  const regSznApg = card.querySelector(".regular-season-apg");
-  const regSznSpg = card.querySelector(".regular-season-spg");
-  const regSznBpg = card.querySelector(".regular-season-bpg");
-  const regSznFgPct = card.querySelector(".regular-season-fgpct");
-  const regSznTpPct = card.querySelector(".regular-season-tppct");
-  const regSznFtPct = card.querySelector(".regular-season-ftpct");
-
-  regSznGp.textContent = regSznStats.gamesPlayed;
-  regSznPpg.textContent = regSznStats.pointsPerGame;
-  regSznRpg.textContent = regSznStats.reboundsPerGame;
-  regSznApg.textContent = regSznStats.assistsPerGame;
-  regSznSpg.textContent = regSznStats.stealsPerGame;
-  regSznBpg.textContent = regSznStats.blocksPerGame;
-  regSznFgPct.textContent = regSznStats.fieldGoalPct;
-  regSznTpPct.textContent = regSznStats.threePointPct;
-  regSznFtPct.textContent = regSznStats.freeThrowPct;
-}
-
-function displayUpdatedPlayoffStats(card, playerName) {
-  const player = players[playerName];
-  const playoffStats = player.stats.playoffs;
-  const playoffGp = card.querySelector(".playoffs-gp");
-  const playoffPpg = card.querySelector(".playoffs-ppg");
-  const playoffRpg = card.querySelector(".playoffs-rpg");
-  const playoffApg = card.querySelector(".playoffs-apg");
-  const playoffSpg = card.querySelector(".playoffs-spg");
-  const playoffBpg = card.querySelector(".playoffs-bpg");
-  const playoffFgPct = card.querySelector(".playoffs-fgpct");
-  const playoffTpPct = card.querySelector(".playoffs-tppct");
-  const playoffFtPct = card.querySelector(".playoffs-ftpct");
-
-  playoffGp.textContent = playoffStats.gamesPlayed;
-  playoffPpg.textContent = playoffStats.pointsPerGame;
-  playoffRpg.textContent = playoffStats.reboundsPerGame;
-  playoffApg.textContent = playoffStats.assistsPerGame;
-  playoffSpg.textContent = playoffStats.stealsPerGame;
-  playoffBpg.textContent = playoffStats.blocksPerGame;
-  playoffFgPct.textContent = playoffStats.fieldGoalPct;
-  playoffTpPct.textContent = playoffStats.threePointPct;
-  playoffFtPct.textContent = playoffStats.freeThrowPct;
-}
-
 function displayPlayerStats(card, name) {
   const player = players[name];
   const regSznStats = player.stats.regularSeason;
@@ -399,11 +388,6 @@ function displayPlayerAwards(card, name) {
 
 // This calls the addCards() function when the page is first loaded
 document.addEventListener("DOMContentLoaded", showCards);
-
-function removeLastCard() {
-  titles.pop(); // Remove last item in titles array
-  showCards(); // Call showCards again to refresh
-}
 
 // Dialog-related functions
 // Getting inputs ready for next entries

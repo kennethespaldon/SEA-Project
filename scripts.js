@@ -134,11 +134,12 @@ function showCards() {
 
     cardContainer.appendChild(nextCard); // Add new card to the container
   }
-
-  udpdateTeamFilterOptions();
 }
 
-document.addEventListener("DOMContentLoaded", showCards);
+document.addEventListener("DOMContentLoaded", () => {
+  showCards();
+  udpdateTeamFilterOptions();
+});
 
 // Show/hide player information
 function toggleButtonState(e, nextCard) {
@@ -252,6 +253,7 @@ function enableCardDeletion(card, playerName) {
 
     // Updates the teams array after a player is deleted
     updateCurrentTeams(playerName);
+    udpdateTeamFilterOptions();
     
     // Removes playerName from players object
     delete players[playerName];
@@ -488,6 +490,8 @@ function addPlayer(e) {
   addPlayerTeam(name);
   addPlayerImage(name);
   addPlayerAwards(name);
+  
+  udpdateTeamFilterOptions();
 
   clearDialogInputs();
   showCards();
@@ -508,6 +512,8 @@ undoDeleteBtn.addEventListener("click", () => {
 
   // Add most recently deleted player back into players object
   players[playerName] = playerObj;
+
+  udpdateTeamFilterOptions();
   showCards();
 });
 

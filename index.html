@@ -6,6 +6,9 @@
     <link rel="stylesheet" href="style.css" />
     <script type="text/javascript" src="./players.js" defer></script>
     <script type="text/javascript" src="scripts.js" defer></script>
+    <script type="text/javascript" src="./utils/dialog-related.js" defer></script>
+    <script type="text/javascript" src="./utils/clear-inputs.js" defer></script>
+    <script type="text/javascript" src="./utils/display-updates.js" defer></script>
   </head>
 
   <body>
@@ -43,6 +46,11 @@
             <option value="descending-playoffs-spg">Steals per game</option>
             <option value="descending-playoffs-bpg">Blocks per game</option>
           </optgroup>
+        </select>
+
+        <label for="filter-by-team">Filter by team</label>
+        <select id="filter-by-team" name="filter-by-team">
+          <option value="unfiltered">--- Filter by team ---</option>
         </select>
 
         <label for="search-player">Search Player</label>

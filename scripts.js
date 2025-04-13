@@ -280,7 +280,7 @@ function editCardContent(card, playerName, newImageURL) {
   cardImage.src = newImageURL;
   cardImage.alt = playerName;
 
-  const uniquePlayerId = `${playerName.split(" ").map(name => name.toLowerCase()).join("-")}-id`;
+  const uniquePlayerId = convertNameToIdForm(playerName);
   card.id = uniquePlayerId;
 
   enableCardUpdates(card, playerName);
@@ -583,22 +583,13 @@ sortPlayersDropdown.addEventListener("change", (e) => {
 });
 
 // START of searching functions //
-function searchSpecificPlayer(e) {
-  const searchVal = e.currentTarget.value.trim();
-  const emptySearchBar = (searchVal === "");
-
-  // Hide cards that don't match the searched player
-  const noPlayerFound = !searchForPossibleMatches(e);
- 
-  // If no such player is found or if input is empty, show all cards
-  if(noPlayerFound || emptySearchBar) {
-    showCards();
-  }
+function convertNameToIdForm(nameSearched) {
+  return `${nameSearched.split(" ").map(name => name.toLowerCase()).join("-")}-id`;
 }
 
 function searchForPossibleMatches(e) {
   const searchVal = e.currentTarget.value.trim();
-  const possiblePlayerCardId = `${searchVal.split(" ").map(name => name.toLowerCase()).join("-")}-id`;
+  const possiblePlayerCardId = convertNameToIdForm(searchVal);
   const cardContainer = document.getElementById("card-container");
   const cards = cardContainer.children;
 
@@ -616,5 +607,17 @@ function searchForPossibleMatches(e) {
   return true;
 }
 
+function searchSpecificPlayer(e) {
+  const searchVal = e.currentTarget.value.trim();
+  const emptySearchBar = (searchVal === "");
+
+  // Hide cards that don't match the searched player
+  const noPlayerFound = !searchForPossibleMatches(e);
+ 
+  // If no such player is found or if input is empty, show all cards
+  if(noPlayerFound || emptySearchBar) {
+    showCards();
+  }
+}
 const searchPlayerInput = document.querySelector("#search-player");
 searchPlayerInput.addEventListener("change", searchSpecificPlayer);

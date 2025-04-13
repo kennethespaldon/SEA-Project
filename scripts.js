@@ -23,7 +23,6 @@
  *
  */
 
-import { players } from "./players.js";
 
 // const statsAwardsBtn = document.querySelector(".stats-awards-btn");
 const addPlayerBtn = document.querySelector(".add-player-btn");

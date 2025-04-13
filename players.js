@@ -1,5 +1,3 @@
-export { players };
-
 const players = {
   "Lebron James": {
     stats: {

@@ -57,8 +57,12 @@ const dpoyInput = document.querySelector("#dpoy-input");
 const allNbaInput = document.querySelector("#all-nba-input");
 const allDefenseInput = document.querySelector("#all-defense-input");
 
+const cardContainer = document.getElementById("card-container");
+
 // Array that holds player objects that are deleted
 const trash = [];
+const teams = [];
+
 
 // PLAYER CLASS
 class Player {
@@ -114,7 +118,6 @@ function createPlayer() {
 
 // This function adds cards the page to display the data in the array
 function showCards() {
-  const cardContainer = document.getElementById("card-container");
   cardContainer.innerHTML = "";
   const templateCard = document.querySelector(".card");
 
@@ -131,6 +134,8 @@ function showCards() {
 
     cardContainer.appendChild(nextCard); // Add new card to the container
   }
+
+  udpdateTeamFilterOptions();
 }
 
 document.addEventListener("DOMContentLoaded", showCards);
@@ -244,6 +249,9 @@ function enableCardDeletion(card, playerName) {
   deleteBtn.addEventListener("click", () => {
     // Pushes [player name, {player object}] array into "trash" array
     trash.push([playerName, players[playerName]]);
+
+    // Updates the teams array after a player is deleted
+    updateCurrentTeams(playerName);
     
     // Removes playerName from players object
     delete players[playerName];
@@ -254,6 +262,14 @@ function enableCardDeletion(card, playerName) {
     // Display updated set of cards
     showCards();
   });
+}
+
+function updateCurrentTeams(playerName) {
+  for (let i = 0; i < teams.length; ++i) {
+    if (teams[i] === players[playerName].team) {
+      teams.splice(i, 1);
+    }
+  }
 }
 
 function enableCardUpdates(card, playerName) {
@@ -288,6 +304,7 @@ function editCardContent(card, playerName, newImageURL) {
 
   displayPlayerStats(card, playerName);
   displayPlayerAwards(card, playerName);
+  displayTeam(card, playerName);
 
   // You can use console.log to help you debug!
   // View the output by right clicking on your website,
@@ -593,6 +610,62 @@ sortPlayersDropdown.addEventListener("change", (e) => {
   showCards();
 });
 
+
+// START of filter functions //
+const filterbyTeamDropdown = document.querySelector("#filter-by-team");
+function udpdateTeamFilterOptions() {
+  // Add teams of current players into teams array (no duplicates)
+  for (const player in players) {
+    if (!(teams.includes(players[player].team))) {
+      teams.push(players[player].team);
+    }
+  }
+
+  // Makes sure that filter options aren't duplicated
+  while (filterbyTeamDropdown.lastElementChild.value !== "unfiltered") {
+    filterbyTeamDropdown.removeChild(filterbyTeamDropdown.lastElementChild);
+  }
+
+  // Add teams of existing players as filter options
+  for (const team of teams) {
+    const teamOption = document.createElement("option");
+    teamOption.value = team;
+    teamOption.textContent = team;
+
+    filterbyTeamDropdown.appendChild(teamOption);
+  }
+}
+
+function filterByTeam(e) {
+  const filteredTeam = e.currentTarget.value;
+  const cards = cardContainer.children;
+  const playerIDsInFilteredTeam = [];
+
+  if (filteredTeam === "unfiltered") {
+    showCards();
+  }
+  
+  // Keep track of IDs of players that are in filtered team
+  for (const player in players) {
+    if (players[player].team === filteredTeam) {
+      playerIDsInFilteredTeam.push(convertNameToIdForm(player));
+    }
+  }
+  
+  // Hide cards that don't match the filtered team
+  for (const card of cards) {
+    for (const playerID of playerIDsInFilteredTeam) {
+      if (card.id !== playerID) {
+        card.classList.add("hidden");
+      } else if (card.id === playerID) {
+        card.classList.remove("hidden");
+      }
+    }
+  }
+}
+
+filterbyTeamDropdown.addEventListener("change", filterByTeam);
+
 // START of searching functions //
 function convertNameToIdForm(nameSearched) {
   return `${nameSearched.split(" ").map(name => name.toLowerCase()).join("-")}-id`;
@@ -601,7 +674,6 @@ function convertNameToIdForm(nameSearched) {
 function searchForPossibleMatches(e) {
   const searchVal = e.currentTarget.value.trim();
   const possiblePlayerCardId = convertNameToIdForm(searchVal);
-  const cardContainer = document.getElementById("card-container");
   const cards = cardContainer.children;
 
   let numberOfMatches = 0;

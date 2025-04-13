@@ -504,10 +504,10 @@ function sortByStatPerGame(statType, season, direction) {
   statType = `${statType.toLowerCase()}PerGame`;
 
   // Create an array of key/value pairs (also arrays) from players object, ["Player Name", {Player Object}]
-  const sorted = Object.entries(players);
+  const unsorted = Object.entries(players);
 
   // Sort each player object in ascending statType
-  sorted.sort((player1, player2) => {
+  const sorted = unsorted.sort((player1, player2) => {
     const player1Stats = player1[1].stats[season][statType];
     const player2Stats = player2[1].stats[season][statType];
 

@@ -385,10 +385,21 @@ function updatePlayerAwards(card, playerName) {
   const allDefInput = card.querySelector("#update-all-def");
 
   // Push year input to "yearsAwarded" arrays of corresponding award in "players" object
-  playerAwards.mvp.yearsAwarded.push(Number(mvpInput.value));
-  playerAwards.dpoy.yearsAwarded.push(Number(dpoyInput.value));
-  playerAwards.allNBA.yearsAwarded.push(Number(allNbaInput.value));
-  playerAwards.allDefense.yearsAwarded.push(Number(allDefInput.value));
+  if (mvpInput.value !== "") {
+    playerAwards.mvp.yearsAwarded.push(Number(mvpInput.value));
+  }
+
+  if (dpoyInput.value !== "") {
+    playerAwards.dpoy.yearsAwarded.push(Number(dpoyInput.value));
+  }
+
+  if (allNbaInput.value !== "") {
+    playerAwards.allNBA.yearsAwarded.push(Number(allNbaInput.value));
+  }
+
+  if (allDefInput.value !== "") {
+    playerAwards.allDefense.yearsAwarded.push(Number(allDefInput.value));
+  }
 }
 // This calls the addCards() function when the page is first loaded
 

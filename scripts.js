@@ -23,17 +23,11 @@
  *
  */
 
-
-// const statsAwardsBtn = document.querySelector(".stats-awards-btn");
 const addPlayerBtn = document.querySelector(".add-player-btn");
-
-// Dialog elements
 const addPlayerDialog = document.querySelector(".add-player-dialog");
-const dialogBtns = document.querySelector(".dialog-btns");
 const dialogAddBtn = document.querySelector(".dialog-add-btn");
 const dialogCancelBtn = document.querySelector(".dialog-cancel-btn");
 
-// Input elements for adding a new player
 const playerNameInput = document.querySelector("#player-name-input");
 const playerTeamInput = document.querySelector("#player-team-input");
 const playerImageInput = document.querySelector("#img-input");
@@ -63,8 +57,60 @@ const dpoyInput = document.querySelector("#dpoy-input");
 const allNbaInput = document.querySelector("#all-nba-input");
 const allDefenseInput = document.querySelector("#all-defense-input");
 
-// Array that holds player objects that were deleted
+// Array that holds player objects that are deleted
 const trash = [];
+
+// PLAYER CLASS
+class Player {
+  constructor() {
+    this.stats = {
+      regularSeason: {
+        gamesPlayed: 0,
+        pointsPerGame: 0,
+        reboundsPerGame: 0,
+        assistsPerGame: 0,
+        stealsPerGame: 0,
+        blocksPerGame: 0,
+        fieldGoalPct: 0,
+        threePointPct: 0,
+        freeThrowPct: 0,
+      },
+      playoffs: {
+        gamesPlayed: 0,
+        pointsPerGame: 0,
+        reboundsPerGame: 0,
+        assistsPerGame: 0,
+        stealsPerGame: 0,
+        blocksPerGame: 0,
+        fieldGoalPct: 0,
+        threePointPct: 0,
+        freeThrowPct: 0,
+      }
+    };
+
+    this.awards = {
+      mvp: {
+        yearsAwarded: [],
+      },
+      dpoy: {
+        yearsAwarded: [],
+      },
+      allNBA: {
+        yearsAwarded: [],
+      },
+      allDefense: {
+        yearsAwarded: [],
+      },
+    };
+
+    this.team = "";
+    this.image = "";
+  }
+}
+
+function createPlayer() {
+  return new Player();
+}
 
 // This function adds cards the page to display the data in the array
 function showCards() {
@@ -93,23 +139,9 @@ function toggleButtonState(e, nextCard) {
   playerInfo.classList.toggle("hidden");
 }
 
-function editCardContent(card, playerName, newImageURL) {
-  card.classList.remove("hidden");
-
-  const cardHeader = card.querySelector(".player-name");
-  cardHeader.textContent = playerName;
-
-  const cardImage = card.querySelector("img");
-  cardImage.src = newImageURL;
-  cardImage.alt = playerName;
-
-  const uniquePlayerId = `${playerName.split(" ").map(name => name.toLowerCase()).join("-")}-id`;
-  card.id = uniquePlayerId;
-
+function enableRegularSeasonUpdate(card, playerName) {
   const updateRegStatsDialog = card.querySelector(".update-regular-stats");
   const updateRegStatsIcon = card.querySelector(".update-reg-stats-icon");
-
-  // Updating regular season stats
   updateRegStatsIcon.addEventListener("click", () => {
     updateRegStatsDialog.showModal();
   });
@@ -129,8 +161,9 @@ function editCardContent(card, playerName, newImageURL) {
     clearRegularSeasonUpdateInputs(card);
     updateRegStatsDialog.close();
   });
+}
 
-  // Update team
+function enableTeamUpdate(card, playerName) {
   const updateTeamDialog = card.querySelector(".update-team");
   const updateTeamIcon = card.querySelector(".update-team-icon");
   updateTeamIcon.addEventListener("click", () => {
@@ -152,8 +185,9 @@ function editCardContent(card, playerName, newImageURL) {
     clearTeamUpdateInput(card);
     updateTeamDialog.close();
   });
+}
 
-  // Updating playoff stats
+function enablePlayoffUpdate(card, playerName) {
   const updatePlayoffStatsDialog = card.querySelector(".update-playoff-stats");
   const updatePlayoffStatsIcon = card.querySelector(".update-playoff-stats-icon");
   updatePlayoffStatsIcon.addEventListener("click", () => {
@@ -175,8 +209,9 @@ function editCardContent(card, playerName, newImageURL) {
     clearPlayoffUpdateInputs(card);
     updatePlayoffStatsDialog.close();
   });
+}
 
-  // Updating awards
+function enableAwardUpdate(card, playerName) {
   const updateAwardsDialog = card.querySelector(".update-player-awards");
   const updateAwardsBtn = card.querySelector(".update-awards-icon");
   updateAwardsBtn.addEventListener("click", () => {
@@ -189,7 +224,6 @@ function editCardContent(card, playerName, newImageURL) {
     e.preventDefault();
     // push current year to "yearsAwarded" array for corresponding award
     updatePlayerAwards(card, playerName);
-    // display newly updated award arrays
     displayPlayerAwards(card, playerName);
     // clear dialog inputs for next entries
     updateAwardsDialog.close();
@@ -200,8 +234,9 @@ function editCardContent(card, playerName, newImageURL) {
     // clear dialog inputs
     updateAwardsDialog.close();
   });
+}
 
-  // Deleting a player 
+function enableCardDeletion(card, playerName) {
   const deleteBtn = card.querySelector(".delete-btn");
   deleteBtn.addEventListener("click", () => {
     // Pushes [player name, {player object}] array into "trash" array
@@ -215,6 +250,37 @@ function editCardContent(card, playerName, newImageURL) {
     // Display updated set of cards
     showCards();
   });
+}
+
+function enableCardUpdates(card, playerName) {
+  // Updating regular season stats
+  enableRegularSeasonUpdate(card, playerName);
+
+  // Update team
+  enableTeamUpdate(card, playerName);
+
+  // Updating playoff stats
+  enablePlayoffUpdate(card, playerName);
+
+  // Updating awards
+  enableAwardUpdate(card, playerName);
+}
+
+function editCardContent(card, playerName, newImageURL) {
+  card.classList.remove("hidden");
+
+  const cardHeader = card.querySelector(".player-name");
+  cardHeader.textContent = playerName;
+
+  const cardImage = card.querySelector("img");
+  cardImage.src = newImageURL;
+  cardImage.alt = playerName;
+
+  const uniquePlayerId = `${playerName.split(" ").map(name => name.toLowerCase()).join("-")}-id`;
+  card.id = uniquePlayerId;
+
+  enableCardUpdates(card, playerName);
+  enableCardDeletion(card, playerName);
 
   displayPlayerStats(card, playerName);
   displayPlayerAwards(card, playerName);
@@ -243,6 +309,12 @@ function updateRegularSeasonStats(card, playerName) {
   const newRegFtPct = card.querySelector("#update-regular-ftpct");
 
   const regSzn = players[playerName].stats.regularSeason;
+
+  const recentGmPts = Number(mostRecentRegPts.value);
+  const recentGmReb = Number(mostRecentRegReb.value);
+  const recentGmAst = Number(mostRecentRegAst.value);
+  const recentGmStl = Number(mostRecentRegStl.value);
+  const recentGmBlk = Number(mostRecentRegBlk.value);
 
   // Update player object with new stats
   regSzn.gamesPlayed += 1;
@@ -315,167 +387,6 @@ function updatePlayerAwards(card, playerName) {
   playerAwards.allDefense.yearsAwarded.push(Number(allDefInput.value));
 }
 
-// CLEARING DIALOG INPUTS (get inputs ready for next entries)
-function clearDialogInputs() {
-  playerNameInput.value = "";
-
-  regularGamesPlayedInput.value = ""; 
-  regularPpgInput.value = "";
-  regularRpgInput.value = "";
-  regularApgInput.value = "";
-  regularSpgInput.value = "";
-  regularBpgInput.value = "";
-  regularFgPctInput.value = "";
-  regularTpPctInput.value = "";
-  regularFtPctInput.value = "";
-
-  playoffsGamesPlayedInput.value = ""; 
-  playoffsPpgInput.value = "";
-  playoffsRpgInput.value = "";
-  playoffsApgInput.value = "";
-  playoffsSpgInput.value = "";
-  playoffsBpgInput.value = "";
-  playoffsFgPctInput.value = "";
-  playoffsTpPctInput.value = "";
-  playoffsFtPctInput.value = "";
-
-  mvpInput.value = "";
-  dpoyInput.value = "";
-  allNbaInput.value = "";
-  allDefenseInput.value = "";
-
-  playerTeamInput.value = "";
-  playerImageInput.value = "";
-}
-
-function clearRegularSeasonUpdateInputs(card) {
-  card.querySelector("#most-recent-gm-pts").value = "";
-  card.querySelector("#most-recent-gm-reb").value = "";
-  card.querySelector("#most-recent-gm-ast").value = "";
-  card.querySelector("#most-recent-gm-stl").value = "";
-  card.querySelector("#most-recent-gm-blk").value = "";
-  card.querySelector("#update-regular-fgpct").value = "";
-  card.querySelector("#update-regular-tppct").value = "";
-  card.querySelector("#update-regular-ftpct").value = "";
-}
-
-function clearPlayoffUpdateInputs(card) {
-  card.querySelector("#most-recent-playoff-pts").value = "";
-  card.querySelector("#most-recent-playoff-reb").value = "";
-  card.querySelector("#most-recent-playoff-ast").value = "";
-  card.querySelector("#most-recent-playoff-stl").value = "";
-  card.querySelector("#most-recent-playoff-blk").value = "";
-  card.querySelector("#update-playoff-fgpct").value = "";
-  card.querySelector("#update-playoff-tppct").value = "";
-  card.querySelector("#update-playoff-ftpct").value = "";
-}
-
-function clearTeamUpdateInput(card) {
-  const teamInput = card.querySelector("#update-team-input");
-  teamInput.value = "";
-}
-
-// DISPLAYING STATS/AWARDS
-function displayPlayerStats(card, name) {
-  const player = players[name];
-  const regSznStats = player.stats.regularSeason;
-  const regSznGp = card.querySelector(".regular-season-gp");
-  const regSznPpg = card.querySelector(".regular-season-ppg");
-  const regSznRpg = card.querySelector(".regular-season-rpg");
-  const regSznApg = card.querySelector(".regular-season-apg");
-  const regSznSpg = card.querySelector(".regular-season-spg");
-  const regSznBpg = card.querySelector(".regular-season-bpg");
-  const regSznFgPct = card.querySelector(".regular-season-fgpct");
-  const regSznTpPct = card.querySelector(".regular-season-tppct");
-  const regSznFtPct = card.querySelector(".regular-season-ftpct");
-
-  regSznGp.textContent = regSznStats.gamesPlayed;
-  regSznPpg.textContent = regSznStats.pointsPerGame;
-  regSznRpg.textContent = regSznStats.reboundsPerGame;
-  regSznApg.textContent = regSznStats.assistsPerGame;
-  regSznSpg.textContent = regSznStats.stealsPerGame;
-  regSznBpg.textContent = regSznStats.blocksPerGame;
-  regSznFgPct.textContent = regSznStats.fieldGoalPct;
-  regSznTpPct.textContent = regSznStats.threePointPct;
-  regSznFtPct.textContent = regSznStats.freeThrowPct;
-
-  const playoffStats = player.stats.playoffs;
-  const playoffsGp = card.querySelector(".playoffs-gp");
-  const playoffsPpg = card.querySelector(".playoffs-ppg");
-  const playoffsRpg = card.querySelector(".playoffs-rpg");
-  const playoffsApg = card.querySelector(".playoffs-apg");
-  const playoffsSpg = card.querySelector(".playoffs-spg");
-  const playoffsBpg = card.querySelector(".playoffs-bpg");
-  const playoffsFgPct = card.querySelector(".playoffs-fgpct");
-  const playoffsTpPct = card.querySelector(".playoffs-tppct");
-  const playoffsFtPct = card.querySelector(".playoffs-ftpct");
-
-  playoffsGp.textContent = playoffStats.gamesPlayed;
-  playoffsPpg.textContent = playoffStats.pointsPerGame;
-  playoffsRpg.textContent = playoffStats.reboundsPerGame;
-  playoffsApg.textContent = playoffStats.assistsPerGame;
-  playoffsSpg.textContent = playoffStats.stealsPerGame;
-  playoffsBpg.textContent = playoffStats.blocksPerGame;
-  playoffsFgPct.textContent = playoffStats.fieldGoalPct;
-  playoffsTpPct.textContent = playoffStats.threePointPct;
-  playoffsFtPct.textContent = playoffStats.freeThrowPct;
-}
-
-function displayPlayerAwards(card, name) {
-  const playerAwards = players[name].awards;
-
-  const mvpAwards = card.querySelector(".mvp-awards");
-  const dpoyAwards = card.querySelector(".dpoy-awards");
-  const allNbaAwards = card.querySelector(".all-nba-awards");
-  const allDefAwards = card.querySelector(".all-defensive-awards");
-
-  const mvpCount = card.querySelector(".mvp-count");
-  const mvpYears = card.querySelector(".mvp-years");
-  const dpoyCount = card.querySelector(".dpoy-count");
-  const dpoyYears = card.querySelector(".dpoy-years");
-  const allNbaCount = card.querySelector(".all-nba-count");
-  const allNbaYears = card.querySelector(".all-nba-years");
-  const allDefCount = card.querySelector(".all-defensive-count");
-  const allDefYears = card.querySelector(".all-defensive-years");
-
-  const numberOfMVPs = playerAwards.mvp.yearsAwarded.length;
-  if (numberOfMVPs === 0) {
-    mvpAwards.classList.add("hidden");
-  } else {
-    mvpCount.textContent = `${numberOfMVPs}x Most Valuable Payer`;
-    mvpYears.textContent = `(${playerAwards.mvp.yearsAwarded.join(", ")})`;
-  }
-
-  const numberOfDPOYs = playerAwards.dpoy.yearsAwarded.length;
-  if (numberOfDPOYs === 0) {
-    dpoyAwards.classList.add("hidden");
-  } else {
-    dpoyCount.textContent = `${numberOfDPOYs}x Defensive Player of the Year`;
-    dpoyYears.textContent = `(${playerAwards.dpoy.yearsAwarded.join(", ")})`;
-  }
-
-  const numberOfAllNBASelections = playerAwards.allNBA.yearsAwarded.length;
-  if (numberOfAllNBASelections === 0) {
-    allNbaAwards.classList.add("hidden");
-  } else {
-    allNbaCount.textContent = `${numberOfAllNBASelections}x All-NBA`;
-    allNbaYears.textContent = `(${playerAwards.allNBA.yearsAwarded.join(", ")})`;
-  }
-
-  const numberOfAllDefSelections = playerAwards.allDefense.yearsAwarded.length;
-  if (numberOfAllDefSelections === 0) {
-    allDefAwards.classList.add("hidden");
-  } else {
-    allDefCount.textContent = `${numberOfAllDefSelections}x All-Defensive`;
-    allDefYears.textContent = `(${playerAwards.allDefense.yearsAwarded.join(", ")})`;
-  }
-}
-
-function displayTeam(card, name) {
-  const team = card.querySelector(".player-team");
-  team.textContent = players[name].team;
-}
-
 // This calls the addCards() function when the page is first loaded
 document.addEventListener("DOMContentLoaded", showCards);
 
@@ -537,10 +448,9 @@ function addPlayerImage(name) {
 }
 
 function addPlayer(e) {
-  // Prevent form from attempting to send data to a non-existent server
   e.preventDefault();
 
-  // Add new player with stats and awards (entered by user) into object. Use input values here.
+  // Add new player with stats and awards (entered by user) into object.
   const name = playerNameInput.value;
   players[name] = createPlayer();
 
@@ -549,28 +459,11 @@ function addPlayer(e) {
   addPlayerImage(name);
   addPlayerAwards(name);
 
-  console.log(players); // remove this
-
-  // Clear inputs for the next entries
   clearDialogInputs();
-
-  // Create a card for the new player and display on the page
   showCards();
 
   addPlayerDialog.close();
 }
-
-dialogAddBtn.addEventListener("click", addPlayer);
-function cancelDialog(e) {
-  e.preventDefault();
-  clearDialogInputs();
-  addPlayerDialog.close();
-}
-
-dialogCancelBtn.addEventListener("click", cancelDialog);
-addPlayerBtn.addEventListener("click", () => {
-  addPlayerDialog.showModal();
-});
 
 // UNDO DELETE
 const undoDeleteBtn = document.querySelector(".undo-delete-btn");
@@ -589,20 +482,11 @@ undoDeleteBtn.addEventListener("click", () => {
 });
 
 // SORTING 
-// Lesson learned: should've wrapped player objects in an array instead of an object so I can use array methods on it 
 function sortByStatPerGame(statType, season, direction) {
   // statType can be pointsPerGame, reboundsPerGame, assistsPerGame, stealsPerGame, or blocksPerGame
   statType = `${statType.toLowerCase()}PerGame`;
 
-  // Determine whether to look for regular season or playoff stats
-  if(season.toLowerCase() === "regular") {
-    season = "regularSeason";
-  } else if (season.toLowerCase() === "playoffs") {
-    season = "playoffs";
-  }
-
-  // Create an array of key/value pairs (also arrays)
-  // ["Player Name", {Player Object}]
+  // Create an array of key/value pairs (also arrays) from players object, ["Player Name", {Player Object}]
   const sorted = Object.entries(players);
 
   // Sort each player object in ascending statType
@@ -610,27 +494,31 @@ function sortByStatPerGame(statType, season, direction) {
     const player1Stats = player1[1].stats[season][statType];
     const player2Stats = player2[1].stats[season][statType];
 
-    if (direction === "ascending"){
-      return player1[1].stats[season][statType] - player2[1].stats[season][statType];
+    if (direction === "ascending") {
+      return player1Stats - player2Stats;
     } else if (direction === "descending") {
-      return player2[1].stats[season][statType] - player1[1].stats[season][statType];
+      return player2Stats - player1Stats;
     }
   });
-  console.log(sorted);
 
-  // Clearing players object
+  clearPlayersObject();
+
+  // Re-add and sort players into players objects in ascending order
+  sortPlayersObject(sorted);
+}
+
+function clearPlayersObject() {
   for (const name in players) {
     delete players[name];
   }
+}
 
-  // Re-add players into players objects in ascending order
-  sorted.forEach((playerArr) => {
+function sortPlayersObject(sortedArr) {
+  sortedArr.forEach((playerArr) => {
     const playerName = playerArr[0];
     const playerObj = playerArr[1];
     players[playerName] = playerObj;
   });
-
-  console.log(players);
 }
 
 const sortPlayersDropdown = document.querySelector("#sort-players");
@@ -641,27 +529,27 @@ sortPlayersDropdown.addEventListener("change", (e) => {
   }
   
   if(e.currentTarget.value === "ascending-reg-szn-ppg") {
-    sortByStatPerGame("points", "regular", "ascending");
+    sortByStatPerGame("points", "regularSeason", "ascending");
   } else if (e.currentTarget.value === "ascending-reg-szn-rpg") {
-    sortByStatPerGame("rebounds", "regular", "ascending");
+    sortByStatPerGame("rebounds", "regularSeason", "ascending");
   } else if (e.currentTarget.value === "ascending-reg-szn-apg") {
-    sortByStatPerGame("assists", "regular", "ascending");
+    sortByStatPerGame("assists", "regularSeason", "ascending");
   } else if (e.currentTarget.value === "ascending-reg-szn-spg") {
-    sortByStatPerGame("steals", "regular", "ascending");
+    sortByStatPerGame("steals", "regularSeason", "ascending");
   } else if (e.currentTarget.value === "ascending-reg-szn-bpg") {
-    sortByStatPerGame("blocks", "regular", "ascending");
+    sortByStatPerGame("blocks", "regularSeason", "ascending");
   }
 
   if(e.currentTarget.value === "descending-reg-szn-ppg") {
-    sortByStatPerGame("points", "regular", "descending");
+    sortByStatPerGame("points", "regularSeason", "descending");
   } else if (e.currentTarget.value === "descending-reg-szn-rpg") {
-    sortByStatPerGame("rebounds", "regular", "descending");
+    sortByStatPerGame("rebounds", "regularSeason", "descending");
   } else if (e.currentTarget.value === "descending-reg-szn-apg") {
-    sortByStatPerGame("assists", "regular", "descending");
+    sortByStatPerGame("assists", "regularSeason", "descending");
   } else if (e.currentTarget.value === "descending-reg-szn-spg") {
-    sortByStatPerGame("steals", "regular", "descending");
+    sortByStatPerGame("steals", "regularSeason", "descending");
   } else if (e.currentTarget.value === "descending-reg-szn-bpg") {
-    sortByStatPerGame("blocks", "regular", "descending");
+    sortByStatPerGame("blocks", "regularSeason", "descending");
   }
 
   if(e.currentTarget.value === "ascending-playoffs-ppg") {
@@ -692,77 +580,38 @@ sortPlayersDropdown.addEventListener("change", (e) => {
 });
 
 // SEARCHING
-const searchPlayerInput = document.querySelector("#search-player");
-searchPlayerInput.addEventListener("change", (e) => {
+function searchSpecificPlayer(e) {
   const searchVal = e.currentTarget.value.trim();
+  const emptySearchBar = (searchVal === "");
 
-  // When search input is empty, show all cards
-  if(searchVal === "") {
+  // Hide cards that don't match the searched player
+  const noPlayerFound = !searchForPossibleMatches(e);
+ 
+  // If no such player is found or if input is empty, show all cards
+  if(noPlayerFound || emptySearchBar) {
     showCards();
-    return;
   }
+}
 
-  const playerCardId = `${searchVal.split(" ").map(name => name.toLowerCase()).join("-")}-id`;
+function searchForPossibleMatches(e) {
+  const searchVal = e.currentTarget.value.trim();
+  const possiblePlayerCardId = `${searchVal.split(" ").map(name => name.toLowerCase()).join("-")}-id`;
   const cardContainer = document.getElementById("card-container");
   const cards = cardContainer.children;
 
-  // Hide cards that don't match the searched player
+  let numberOfMatches = 0;
   for (const card of cards) {
-    if (!(card.id === playerCardId)) {
+    if (card.id === possiblePlayerCardId) {
+      ++numberOfMatches;
+    } else if (card.id !== possiblePlayerCardId) {
       card.classList.add("hidden");
     }
   }
-});
 
+  if(numberOfMatches === 0) return false;
 
-// PLAYER CLASS
-function createPlayer() {
-  return new Player();
+  return true;
 }
 
-class Player {
-  constructor() {
-    this.stats = {
-      regularSeason: {
-        gamesPlayed: 0,
-        pointsPerGame: 0,
-        reboundsPerGame: 0,
-        assistsPerGame: 0,
-        stealsPerGame: 0,
-        blocksPerGame: 0,
-        fieldGoalPct: 0,
-        threePointPct: 0,
-        freeThrowPct: 0,
-      },
-      playoffs: {
-        gamesPlayed: 0,
-        pointsPerGame: 0,
-        reboundsPerGame: 0,
-        assistsPerGame: 0,
-        stealsPerGame: 0,
-        blocksPerGame: 0,
-        fieldGoalPct: 0,
-        threePointPct: 0,
-        freeThrowPct: 0,
-      }
-    };
-
-    this.awards = {
-      mvp: {
-        yearsAwarded: [],
-      },
-      dpoy: {
-        yearsAwarded: [],
-      },
-      allNBA: {
-        yearsAwarded: [],
-      },
-      allDefense: {
-        yearsAwarded: [],
-      },
-    };
-
-    this.team = "";
-    this.image = "";
-  }
-}
+const searchPlayerInput = document.querySelector("#search-player");
+searchPlayerInput.addEventListener("change", searchSpecificPlayer);

@@ -643,6 +643,7 @@ function filterByTeam(e) {
 
   if (filteredTeam === "unfiltered") {
     showCards();
+    return;
   }
   
   // Keep track of IDs of players that are in filtered team
@@ -654,12 +655,10 @@ function filterByTeam(e) {
   
   // Hide cards that don't match the filtered team
   for (const card of cards) {
-    for (const playerID of playerIDsInFilteredTeam) {
-      if (card.id !== playerID) {
-        card.classList.add("hidden");
-      } else if (card.id === playerID) {
-        card.classList.remove("hidden");
-      }
+    if (!playerIDsInFilteredTeam.includes(card.id)) {
+      card.classList.add("hidden");
+    } else {
+      card.classList.remove("hidden");
     }
   }
 }

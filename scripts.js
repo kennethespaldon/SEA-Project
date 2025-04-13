@@ -133,12 +133,15 @@ function showCards() {
   }
 }
 
-// SHOW / HIDE PLAYER STATS/AWARDS
+document.addEventListener("DOMContentLoaded", showCards);
+
+// Show/hide player information
 function toggleButtonState(e, nextCard) {
   const playerInfo = nextCard.querySelector(".player-stats");
   playerInfo.classList.toggle("hidden");
 }
 
+// START of card update functions //
 function enableRegularSeasonUpdate(card, playerName) {
   const updateRegStatsDialog = card.querySelector(".update-regular-stats");
   const updateRegStatsIcon = card.querySelector(".update-reg-stats-icon");
@@ -241,12 +244,13 @@ function enableCardDeletion(card, playerName) {
   deleteBtn.addEventListener("click", () => {
     // Pushes [player name, {player object}] array into "trash" array
     trash.push([playerName, players[playerName]]);
+    
     // Removes playerName from players object
     delete players[playerName];
-    console.log(players);
-    console.log(trash);
+
     // Removes the card from html
     card.remove();
+
     // Display updated set of cards
     showCards();
   });
@@ -291,7 +295,7 @@ function editCardContent(card, playerName, newImageURL) {
   console.log("new card:", playerName, "- html: ", card);
 }
 
-// UPDATING
+// START of player object update functions //
 function updateTeam(card, playerName) {
   const player = players[playerName];
   const newTeam = card.querySelector("#update-team-input").value;
@@ -386,11 +390,9 @@ function updatePlayerAwards(card, playerName) {
   playerAwards.allNBA.yearsAwarded.push(Number(allNbaInput.value));
   playerAwards.allDefense.yearsAwarded.push(Number(allDefInput.value));
 }
-
 // This calls the addCards() function when the page is first loaded
-document.addEventListener("DOMContentLoaded", showCards);
 
-// ADDING A PLAYER 
+// START of addPlayer() functions //
 function addPlayerStats(name) {
   const player = players[name];
   const regularSeasonStats = player.stats.regularSeason;
@@ -465,7 +467,7 @@ function addPlayer(e) {
   addPlayerDialog.close();
 }
 
-// UNDO DELETE
+// Undo most recent deletion //
 const undoDeleteBtn = document.querySelector(".undo-delete-btn");
 undoDeleteBtn.addEventListener("click", () => {
   if(trash.length === 0) {
@@ -481,7 +483,22 @@ undoDeleteBtn.addEventListener("click", () => {
   showCards();
 });
 
-// SORTING 
+// START of sorting functions //
+function clearPlayersObject() {
+  for (const name in players) {
+    delete players[name];
+  }
+}
+
+function sortPlayersObject(sortedArr) {
+  // Adds sorted player objects (sorted using an array) into players object 
+  sortedArr.forEach((playerArr) => {
+    const playerName = playerArr[0];
+    const playerObj = playerArr[1];
+    players[playerName] = playerObj;
+  });
+}
+
 function sortByStatPerGame(statType, season, direction) {
   // statType can be pointsPerGame, reboundsPerGame, assistsPerGame, stealsPerGame, or blocksPerGame
   statType = `${statType.toLowerCase()}PerGame`;
@@ -505,20 +522,6 @@ function sortByStatPerGame(statType, season, direction) {
 
   // Re-add and sort players into players objects in ascending order
   sortPlayersObject(sorted);
-}
-
-function clearPlayersObject() {
-  for (const name in players) {
-    delete players[name];
-  }
-}
-
-function sortPlayersObject(sortedArr) {
-  sortedArr.forEach((playerArr) => {
-    const playerName = playerArr[0];
-    const playerObj = playerArr[1];
-    players[playerName] = playerObj;
-  });
 }
 
 const sortPlayersDropdown = document.querySelector("#sort-players");
@@ -579,7 +582,7 @@ sortPlayersDropdown.addEventListener("change", (e) => {
   showCards();
 });
 
-// SEARCHING
+// START of searching functions //
 function searchSpecificPlayer(e) {
   const searchVal = e.currentTarget.value.trim();
   const emptySearchBar = (searchVal === "");

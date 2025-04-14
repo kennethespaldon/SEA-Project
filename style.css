@@ -1,5 +1,6 @@
 * {
   box-sizing: border-box;
+  font-family: monospace;
 }
 
 html,
@@ -11,7 +12,7 @@ body {
 
 body {
   display: grid;
-  grid-template-columns: 1fr 5fr;
+  grid-template-columns: 350px 5fr;
   background-image: url(https://wallpapers.com/images/hd/n-b-a-legends-collage-m8fw2y4s07rddam8.jpg);
   background-size: contain;
   backdrop-filter: blur(8px);
@@ -23,17 +24,20 @@ body {
 }
 
 .title {
-  text-align: center;
-  margin: 0 0 24px 0;
+  margin: 0 0 42px 0;
   font-size: 3rem;
-  font-family: "Helvetica";
   font-weight: normal;
   color: white;
+
+  display: flex;
+  align-items: center;
+  gap: 32px;
 }
 
 aside {
   display: flex;
   flex-direction: column;
+  color: #ecf0f1;
   gap: 24px;
 }
 
@@ -50,14 +54,125 @@ aside button {
   overflow-y: scroll;
 }
 
-.add-player-dialog {
-  /* width: 50px;
-  height: 50px; */
-  background-color: red;
+dialog {
+  background-color: #ecf0f1;
 }
 
 .add-player-dialog::backdrop {
   backdrop-filter: blur(4px);
+}
+
+.add-player-form {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  text-align: center;
+  font-family: monospace;
+}
+
+.add-player-form input {
+  font-size: 16px;
+  text-align: center;
+}
+
+label[for="player-name-input"],
+label[for="player-team-input"],
+label[for="img-input"] {
+  font-size: 20px;
+  font-weight: bold;
+}
+
+.player-and-team-name-input-container {
+  display: flex;
+  gap: 24px;
+}
+
+#player-name-input,
+#player-team-input,
+#img-input {
+  width: 100%;
+}
+
+.regular-season-stats-input-container,
+.playoff-stats-input-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+}
+
+.regular-season-stats-input-container h2,
+.playoff-stats-input-container h2 {
+  margin-bottom: -2px;
+}
+
+.regular-season-stats-input-container input,
+.playoff-stats-input-container input {
+  display: block;
+  width: 100px;
+}
+
+.regular-season-stats-input-container label,
+.playoff-stats-input-container label,
+.awards-input-container label {
+  margin-bottom: -8px;
+}
+
+.player-stats-input-container {
+  display: flex;
+  justify-content: center;
+  gap: 48px;
+}
+
+.awards-input-container {
+  display: flex;
+  flex-direction: column;
+}
+
+.awards-input-container input {
+  width: 100%;
+  margin-top: 2px;
+}
+
+.mvp-dpoy-input-container,
+.all-team-input-container {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.awards-input-container h2 {
+  margin: 12px 0 6px 0;
+}
+
+.awards-input-container div {
+  margin-bottom: 12px;
+}
+
+.dialog-add-btn,
+.dialog-cancel-btn {
+  padding: 4px 24px;
+}
+
+.dialog-add-btn,
+.update-team-btn,
+.update-player-awards-btn,
+.update-regular-stats-btn,
+.update-playoff-stats-btn {
+  background-color: #68ba7f;
+}
+
+.dialog-cancel-btn {
+  margin-left: 32px;
+}
+
+.dialog-add-btn:hover,
+.dialog-cancel-btn:hover,
+.update-team-btn:hover,
+.update-player-awards-btn:hover,
+.update-regular-stats-btn:hover,
+.update-playoff-stats-btn:hover {
+  filter: contrast(150%);
 }
 
 .card {
@@ -65,13 +180,14 @@ aside button {
   border-radius: 5px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   margin: 5px;
-  background-color: #D1D7E0;
+  background-color: #ecf0f1;
+  box-shadow: 4px 8px 4px 4px rgba(20, 22, 25, 0.5);
 }
 
 .card-content {
   padding: 20px;
   font-family: "Verdana";
-  color: #777;
+  color: #ecf0f1;
   text-align: center;
 }
 
@@ -86,6 +202,29 @@ aside button {
   height: 650px;
 }
 
+.player-stats h2,
+.player-team-title,
+.regular-season-stats-title,
+.playoffs-stats-title {
+  font-size: 20px;
+  color: black;
+}
+
+.mvp-count,
+.dpoy-count,
+.all-nba-count,
+.all-defensive-count {
+  font-size: 16px;
+}
+
+.player-stats-table th {
+  font-size: 20px;
+}
+
+.font-size-16px {
+  font-size: 16px;
+}
+
 .card img {
   width: 100%;
   height: 100%;
@@ -94,16 +233,17 @@ aside button {
 .player-name {
   padding: 10px;
   text-align: center;
+  color: black;
 }
 
 .stats-awards-btn,
 .delete-btn {
   padding: 5px 40px;
+  box-shadow: 1px 2px 2px 2px #141619;
 }
 
-.stats-awards-btn,
-.delete-btn {
-  box-shadow: 1px 2px 2px 2px #141619;
+.stats-awards-btn {
+  background-color: #68ba7f;
 }
 
 .stats-awards-btn:active,
@@ -160,15 +300,14 @@ button {
 .player-team-title,
 .regular-season-stats-title,
 .playoffs-stats-title {
-  background-color: #BBBDBC;
+  background-color: #ecf0f1;
   font-size: 20px;
   padding: 2px;
-
   position: relative;
 }
 
 .player-awards-title {
-  background-color: #BBBDBC;
+  background-color: #ecf0f1;
   margin: 0 12px;
   padding: 2px;
   position: relative;
@@ -186,12 +325,12 @@ button {
   position: absolute;
   right: 10px;
   top: 4px;
-
   font-size: 16px;
 }
 
 .edit-icon:hover {
   cursor: pointer;
+  color: #68ba7f;
 }
 
 .update-regular-stats,

@@ -61,6 +61,8 @@ const cardContainer = document.getElementById("card-container");
 
 // Array that holds player objects that are deleted
 const trash = [];
+
+// Array that holds teams of existing players (no duplicates)
 const teams = [];
 
 
@@ -136,6 +138,7 @@ function showCards() {
   }
 }
 
+// This calls the showCards() function and updates the team filter options when the page is first loaded
 document.addEventListener("DOMContentLoaded", () => {
   showCards();
   udpdateTeamFilterOptions();
@@ -420,7 +423,6 @@ function updatePlayerAwards(card, playerName) {
     playerAwards.allDefense.yearsAwarded.push(Number(allDefInput.value));
   }
 }
-// This calls the addCards() function when the page is first loaded
 
 // START of addPlayer() functions //
 function addPlayerStats(name) {
@@ -475,7 +477,6 @@ function addPlayerTeam(name) {
 function addPlayerImage(name) {
   const player = players[name];
   player.image = playerImageInput.value.trim();
-  // Remove whitespace from both ends of the string
   player.image = player.image.trim();
 }
 
@@ -618,20 +619,22 @@ sortPlayersDropdown.addEventListener("change", (e) => {
 
 // START of filter functions //
 const filterbyTeamDropdown = document.querySelector("#filter-by-team");
-function udpdateTeamFilterOptions() {
-  // Add teams of current players into teams array (no duplicates)
+
+function updateCurrentTeams() {
   for (const player in players) {
     if (!(teams.includes(players[player].team))) {
       teams.push(players[player].team);
     }
   }
+}
 
-  // Makes sure that filter options aren't duplicated
+function emptyTeamFilterOptions() {
   while (filterbyTeamDropdown.lastElementChild.value !== "unfiltered") {
     filterbyTeamDropdown.removeChild(filterbyTeamDropdown.lastElementChild);
   }
+}
 
-  // Add teams of existing players as filter options
+function displayCurrentTeams() {
   for (const team of teams) {
     const teamOption = document.createElement("option");
     teamOption.value = team;
@@ -641,31 +644,51 @@ function udpdateTeamFilterOptions() {
   }
 }
 
-function filterByTeam(e) {
-  const filteredTeam = e.currentTarget.value;
-  const cards = cardContainer.children;
-  const playerIDsInFilteredTeam = [];
+function udpdateTeamFilterOptions() {
+  // Add teams of current players into teams array (no duplicates)
+  updateCurrentTeams();
 
-  if (filteredTeam === "unfiltered") {
-    showCards();
-    return;
-  }
-  
-  // Keep track of IDs of players that are in filtered team
+  // Makes sure that filter options aren't duplicated
+  emptyTeamFilterOptions();
+
+  // Add teams of existing players as filter options
+  displayCurrentTeams();
+}
+
+function filterPlayersBasedOnTeam(filteredTeamName, playersInTeam) {
   for (const player in players) {
-    if (players[player].team === filteredTeam) {
-      playerIDsInFilteredTeam.push(convertNameToIdForm(player));
+    if (players[player].team === filteredTeamName) {
+      playersInTeam.push(convertNameToIdForm(player));
     }
   }
-  
-  // Hide cards that don't match the filtered team
+}
+
+function displayFilteredTeam(playersInTeam) {
+  const cards = cardContainer.children;
   for (const card of cards) {
-    if (!playerIDsInFilteredTeam.includes(card.id)) {
+    if (!playersInTeam.includes(card.id)) {
       card.classList.add("hidden");
     } else {
       card.classList.remove("hidden");
     }
   }
+}
+
+function filterByTeam(e) {
+  const filteredTeam = e.currentTarget.value;
+  const playerIDsInFilteredTeam = [];
+  const noFilter = (filteredTeam === "unfiltered");
+
+  if (noFilter) {
+    showCards();
+    return;
+  }
+  
+  // Keep track of IDs of players that are in filtered team
+  filterPlayersBasedOnTeam(filteredTeam, playerIDsInFilteredTeam);
+  
+  // Hide player cards that don't match the filtered team
+  displayFilteredTeam(playerIDsInFilteredTeam);
 }
 
 filterbyTeamDropdown.addEventListener("change", filterByTeam);
@@ -706,5 +729,6 @@ function searchSpecificPlayer(e) {
     showCards();
   }
 }
+
 const searchPlayerInput = document.querySelector("#search-player");
 searchPlayerInput.addEventListener("change", searchSpecificPlayer);

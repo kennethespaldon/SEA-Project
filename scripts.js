@@ -253,15 +253,15 @@ function enableCardDeletion(card, playerName) {
 
     // Updates the teams array after a player is deleted
     updateCurrentTeams(playerName);
-    udpdateTeamFilterOptions();
     
     // Removes playerName from players object
     delete players[playerName];
-
+    
     // Removes the card from html
     card.remove();
-
+    
     // Display updated set of cards
+    udpdateTeamFilterOptions();
     showCards();
   });
 }
@@ -492,7 +492,6 @@ function addPlayer(e) {
   addPlayerAwards(name);
   
   udpdateTeamFilterOptions();
-
   clearDialogInputs();
   showCards();
 

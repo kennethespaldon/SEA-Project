@@ -13,56 +13,55 @@
   </head>
 
   <body>
-    <header class="main-header">
-      <h1 class="title">
-        <img src="https://upload.wikimedia.org/wikipedia/en/thumb/0/03/National_Basketball_Association_logo.svg/210px-National_Basketball_Association_logo.svg.png" alt="" width="50px" height="100px">
-        NBA Stats
-      </h1>
-      <aside>
-        <label for="sort-players">Sort: </label>
-        <select id="sort-players" name="sort-players">
-          <option value="unsorted">No sorting</option>
-          <optgroup label="Regular Season (Ascending)">
-            <option value="ascending-reg-szn-ppg">Points per game</option>
-            <option value="ascending-reg-szn-rpg">Rebounds per game</option>
-            <option value="ascending-reg-szn-apg">Assists per game</option>
-            <option value="ascending-reg-szn-spg">Steals per game</option>
-            <option value="ascending-reg-szn-bpg">Blocks per game</option>
-          </optgroup>
-          <optgroup label="Regular Season (Descending)">
-            <option value="descending-reg-szn-ppg">Points per game</option>
-            <option value="descending-reg-szn-rpg">Rebounds per game</option>
-            <option value="descending-reg-szn-apg">Assists per game</option>
-            <option value="descending-reg-szn-spg">Steals per game</option>
-            <option value="descending-reg-szn-bpg">Blocks per game</option>
-          </optgroup>
-          <optgroup label="Playoffs (Ascending)">
-            <option value="ascending-playoffs-ppg">Points per game</option>
-            <option value="ascending-playoffs-rpg">Rebounds per game</option>
-            <option value="ascending-playoffs-apg">Assists per game</option>
-            <option value="ascending-playoffs-spg">Steals per game</option>
-            <option value="ascending-playoffs-bpg">Blocks per game</option>
-          </optgroup>
-          <optgroup label="Playoffs (Descending)">
-            <option value="descending-playoffs-ppg">Points per game</option>
-            <option value="descending-playoffs-rpg">Rebounds per game</option>
-            <option value="descending-playoffs-apg">Assists per game</option>
-            <option value="descending-playoffs-spg">Steals per game</option>
-            <option value="descending-playoffs-bpg">Blocks per game</option>
-          </optgroup>
-        </select>
-
-        <label for="filter-by-team">Filter by team</label>
-        <select id="filter-by-team" name="filter-by-team">
-          <option value="unfiltered">No filter</option>
-        </select>
-
-        <label for="search-player">Search Player</label>
-        <input type="search" id="search-player" name="search-player">
-
-        <button class="add-player-btn">+ Add Player</button>
-        <button class="undo-delete-btn">Undo Delete</button>
-      </aside>
+    <div class="main-header-container">
+      <header class="main-header">
+        <h1 class="title">
+          <img src="https://upload.wikimedia.org/wikipedia/en/thumb/0/03/National_Basketball_Association_logo.svg/210px-National_Basketball_Association_logo.svg.png" alt="" width="50px" height="100px">
+          NBA Stats
+        </h1>
+        <aside>
+          <label for="sort-players">Sort</label>
+          <select id="sort-players" name="sort-players">
+            <option value="unsorted">No sorting</option>
+            <optgroup label="Regular Season (Ascending)">
+              <option value="ascending-reg-szn-ppg">Points per game</option>
+              <option value="ascending-reg-szn-rpg">Rebounds per game</option>
+              <option value="ascending-reg-szn-apg">Assists per game</option>
+              <option value="ascending-reg-szn-spg">Steals per game</option>
+              <option value="ascending-reg-szn-bpg">Blocks per game</option>
+            </optgroup>
+            <optgroup label="Regular Season (Descending)">
+              <option value="descending-reg-szn-ppg">Points per game</option>
+              <option value="descending-reg-szn-rpg">Rebounds per game</option>
+              <option value="descending-reg-szn-apg">Assists per game</option>
+              <option value="descending-reg-szn-spg">Steals per game</option>
+              <option value="descending-reg-szn-bpg">Blocks per game</option>
+            </optgroup>
+            <optgroup label="Playoffs (Ascending)">
+              <option value="ascending-playoffs-ppg">Points per game</option>
+              <option value="ascending-playoffs-rpg">Rebounds per game</option>
+              <option value="ascending-playoffs-apg">Assists per game</option>
+              <option value="ascending-playoffs-spg">Steals per game</option>
+              <option value="ascending-playoffs-bpg">Blocks per game</option>
+            </optgroup>
+            <optgroup label="Playoffs (Descending)">
+              <option value="descending-playoffs-ppg">Points per game</option>
+              <option value="descending-playoffs-rpg">Rebounds per game</option>
+              <option value="descending-playoffs-apg">Assists per game</option>
+              <option value="descending-playoffs-spg">Steals per game</option>
+              <option value="descending-playoffs-bpg">Blocks per game</option>
+            </optgroup>
+          </select>
+          <label for="filter-by-team">Filter by team</label>
+          <select id="filter-by-team" name="filter-by-team">
+            <option value="unfiltered">No filter</option>
+          </select>
+          <label for="search-player">Search Player</label>
+          <input type="search" id="search-player" name="search-player">
+          <button class="add-player-btn">+ Add Player</button>
+          <button class="undo-delete-btn">↩ Undo Delete</button>
+        </aside>
+    </div>
     </header>
     <div id="card-container">
     </div>
@@ -70,80 +69,80 @@
       <form class="add-player-form">
         <div class="player-name-input-container">
           <label for="player-name-input">Player Name</label>
-          <input type="text" id="player-name-input" name="player-name-input">
+          <input type="text" id="player-name-input" name="player-name-input" value="Anthony Davis">
         </div>
         <div class="player-team-input-container">
           <label for="player-team-input">Team</label>
-          <input type="text" id="player-team-input" name="player-team-input">
+          <input type="text" id="player-team-input" name="player-team-input" value="Dallas Mavericks">
         </div>
 
       <div class="image-input-container">
         <label for="img-input">Player Picture (url)</label>
-        <input type="text" id="img-input" name="img-input">
+        <input type="text" id="img-input" name="img-input" value="https://images2.minutemediacdn.com/image/upload/c_crop,w_3669,h_2063,x_0,y_1021/c_fill,w_720,ar_16:9,f_auto,q_auto,g_auto/images/ImagnImages/mmsport/dallas_basketball/01jkq6ks5ytz17atrkc4.jpg">
       </div>
 
         <div class="player-stats-input-container">
           <div class="regular-season-stats-input-container">
             <h2>Regular Season</h2>
             <label for="regular-gms-input">Games Played</label>
-            <input type="number" id="regular-gms-input" name="regular-gms-input">
+            <input type="number" id="regular-gms-input" name="regular-gms-input" value="51">
             <label for="regular-ppg-input">PPG</label>
-            <input type="number" id="regular-ppg-input" name="regular-ppg-input">
+            <input type="number" id="regular-ppg-input" name="regular-ppg-input" value="24.7">
             <label for="regular-rpg-input">RPG</label>
-            <input type="number" id="regular-rpg-input" name="regular-rpg-input">
+            <input type="number" id="regular-rpg-input" name="regular-rpg-input" value="11.6">
             <label for="regular-apg-input">APG</label>
-            <input type="number" id="regular-apg-input" name="regular-apg-input">
+            <input type="number" id="regular-apg-input" name="regular-apg-input" value="3.5">
             <label for="regular-spg-input">SPG</label>
-            <input type="number" id="regular-spg-input" name="regular-spg-input">
+            <input type="number" id="regular-spg-input" name="regular-spg-input" value="1.2">
             <label for="regular-bpg-input">BPG</label>
-            <input type="number" id="regular-bpg-input" name="regular-bpg-input">
+            <input type="number" id="regular-bpg-input" name="regular-bpg-input" value="2.2">
             <label for="regular-fgpct-input">FG%</label>
-            <input type="number" id="regular-fgpct-input" name="regular-fgpct-input">
+            <input type="number" id="regular-fgpct-input" name="regular-fgpct-input" value="51.6">
             <label for="regular-tppct-input">3PT%</label>
-            <input type="number" id="regular-tppct-input" name="regular-tppct-input">
+            <input type="number" id="regular-tppct-input" name="regular-tppct-input" value="28.2">
             <label for="regular-ftpct-input">FT%</label>
-            <input type="number" id="regular-ftpct-input" name="regular-ftpct-input">
+            <input type="number" id="regular-ftpct-input" name="regular-ftpct-input" value="77.5">
           </div>
           <div class="playoff-stats-input-container">
             <h2>Playoffs</h2>
             <label for="playoffs-gms-input">Games Played</label>
-            <input type="number" id="playoffs-gms-input" name="playoffs-gms-input">
+            <input type="number" id="playoffs-gms-input" name="playoffs-gms-input" value="5">
             <label for="playoffs-ppg-input">PPG</label>
-            <input type="number" id="playoffs-ppg-input" name="playoffs-ppg-input">
+            <input type="number" id="playoffs-ppg-input" name="playoffs-ppg-input" value="27.8">
             <label for="playoffs-rpg-input">RPG</label>
-            <input type="number" id="playoffs-rpg-input" name="playoffs-rpg-input">
+            <input type="number" id="playoffs-rpg-input" name="playoffs-rpg-input" value="15.6">
             <label for="playoffs-apg-input">APG</label>
-            <input type="number" id="playoffs-apg-input" name="playoffs-apg-input">
+            <input type="number" id="playoffs-apg-input" name="playoffs-apg-input" value="4.0">
             <label for="playoffs-spg-input">SPG</label>
-            <input type="number" id="playoffs-spg-input" name="playoffs-spg-input">
+            <input type="number" id="playoffs-spg-input" name="playoffs-spg-input" value="0.4">
             <label for="playoffs-spg-input">BPG</label>
-            <input type="number" id="playoffs-bpg-input" name="playoffs-bpg-input">
+            <input type="number" id="playoffs-bpg-input" name="playoffs-bpg-input" value="1.6">
             <label for="playoffs-fgpct-input">FG%</label>
-            <input type="number" id="playoffs-fgpct-input" name="playoffs-fgpct-input">
+            <input type="number" id="playoffs-fgpct-input" name="playoffs-fgpct-input" value="63.4">
             <label for="playoffs-tppct-input">3PT%</label>
-            <input type="number" id="playoffs-tppct-input" name="playoffs-tppct-input">
+            <input type="number" id="playoffs-tppct-input" name="playoffs-tppct-input" value="0">
             <label for="playoffs-ftpct-input">FT%</label>
-            <input type="number" id="playoffs-ftpct-input" name="playoffs-ftpct-input">
+            <input type="number" id="playoffs-ftpct-input" name="playoffs-ftpct-input" value="80.8">
           </div>
         </div>
         <div class="awards-input-container">
           <h2>Awards</h2>
           <div>
             <label for="mvp-input">MVP</label>
-            <input type="text" id="mvp-input" name="mvp-input" placeholder="2000, 2005, 2006, 2012">
+            <input type="text" id="mvp-input" name="mvp-input" placeholder="2000, 2001, 2002">
           </div>
           <div>
             <label for="dpoy-input">DPOY</label>
-            <input type="text" id="dpoy-input" name="dpoy-input" placeholder="2000, 2005, 2006, 2012">
+            <input type="text" id="dpoy-input" name="dpoy-input" placeholder="2010, 2012, 2014, 2020">
           </div>
 
           <div>
             <label for="all-nba-input">All-NBA Team Selections</label>
-            <input type="text" id="all-nba-input" name="all-nba-input" placeholder="2000, 2005, 2006, 2012">
+            <input type="text" id="all-nba-input" name="all-nba-input" placeholder="1988" value="2015, 2017, 2018, 2020, 2024">
           </div>
           <div>
             <label for="all-defense-input">All-Defensive Team Selections</label>
-            <input type="text" id="all-defense-input" name="all-defense-input" placeholder="2000, 2005, 2006, 2012">
+            <input type="text" id="all-defense-input" name="all-defense-input" placeholder="2021, 2022" value="2015, 2017, 2018, 2020, 2024">
           </div>
         </div>
 
@@ -238,31 +237,32 @@
           </div>
 
           <dialog class="update-team">
-            <label for="update-team-input" class="update-title">New team</label>
-            <input type="text" id="update-team-input" name="update-team-input">
-
-            <button class="update-team-btn">Update</button>
-            <button class="cancel-update-team-btn">Cancel</button>
+            <form class="update-team-form">
+              <label for="update-team-input" class="update-title">New team</label>
+              <input type="text" id="update-team-input" name="update-team-input" value="New York Knicks">
+              <button class="update-team-btn">Update</button>
+              <button class="cancel-update-team-btn">Cancel</button>
+            </form>
           </dialog>
           <dialog class="update-regular-stats">
             <h2 class="update-title">Most recent game stats</h2>
             <form class="update-regular-stats-form">
               <label for="most-recent-gm-pts">Points: </label>
-              <input type="number" id="most-recent-gm-pts" name="most-recent-gm-pts">
-              <label for="most-recent-gm-reb">Rebounds: </label>
-              <input type="number" id="most-recent-gm-reb" name="most-recent-gm-reb">
-              <label for="most-recent-gm-ast">Assists: </label>
-              <input type="number" id="most-recent-gm-ast" name="most-recent-gm-ast">
-              <label for="most-recent-gm-stl">Steals: </label>
-              <input type="number" id="most-recent-gm-stl" name="most-recent-gm-stl">
-              <label for="most-recent-gm-blk">Blocks: </label>
-              <input type="number" id="most-recent-gm-blk" name="most-recent-gm-blk">
-              <label for="update-regular-fgpct">New Season FG%: </label>
-              <input type="number" id="update-regular-fgpct" name="update-regular-fgpct">
-              <label for="update-regular-tppct">New Season 3PT%: </label>
-              <input type="number" id="update-regular-tppct" name="update-regular-tppct">
-              <label for="update-regular-ftpct">New Season FT%: </label>
-              <input type="number" id="update-regular-ftpct" name="update-regular-ftpct">
+              <input type="number" id="most-recent-gm-pts" name="most-recent-gm-pts" value="50">
+              <label for="most-recent-gm-reb">Rebounds</label>
+              <input type="number" id="most-recent-gm-reb" name="most-recent-gm-reb" value="10">
+              <label for="most-recent-gm-ast">Assists</label>
+              <input type="number" id="most-recent-gm-ast" name="most-recent-gm-ast" value="10">
+              <label for="most-recent-gm-stl">Steals</label>
+              <input type="number" id="most-recent-gm-stl" name="most-recent-gm-stl" value="10">
+              <label for="most-recent-gm-blk">Blocks</label>
+              <input type="number" id="most-recent-gm-blk" name="most-recent-gm-blk" value="10">
+              <label for="update-regular-fgpct">New Season FG%</label>
+              <input type="number" id="update-regular-fgpct" name="update-regular-fgpct" value="53">
+              <label for="update-regular-tppct">New Season 3PT%</label>
+              <input type="number" id="update-regular-tppct" name="update-regular-tppct" value="34">
+              <label for="update-regular-ftpct">New Season FT%</label>
+              <input type="number" id="update-regular-ftpct" name="update-regular-ftpct" value="74">
 
               <button class="update-regular-stats-btn">Update</button>
               <button class="cancel-update-regular-stats-btn">Cancel</button>
@@ -271,22 +271,22 @@
           <dialog class="update-playoff-stats">
             <h2 class="update-title">Most recent playoff game stats</h2>
             <form class="update-playoff-stats-form">
-              <label for="most-recent-playoff-pts">Points: </label>
-              <input type="number" id="most-recent-playoff-pts" name="most-recent-playoff-pts">
-              <label for="most-recent-playoff-reb">Rebounds: </label>
-              <input type="number" id="most-recent-playoff-reb" name="most-recent-playoff-reb">
-              <label for="most-recent-playoff-ast">Assists: </label>
-              <input type="number" id="most-recent-playoff-ast" name="most-recent-playoff-ast">
-              <label for="most-recent-playoff-stl">Steals: </label>
-              <input type="number" id="most-recent-playoff-stl" name="most-recent-playoff-stl">
-              <label for="most-recent-playoff-blk">Blocks: </label>
-              <input type="number" id="most-recent-playoff-blk" name="most-recent-playoff-blk">
-              <label for="update-playoff-fgpct">New Playoff FG%: </label>
-              <input type="number" id="update-playoff-fgpct" name="update-playoff-fgpct">
-              <label for="update-playoff-tppct">New Playoff 3PT%: </label>
-              <input type="number" id="update-playoff-tppct" name="update-playoff-tppct">
-              <label for="update-playoff-ftpct">New Playoff FT%: </label>
-              <input type="number" id="update-playoff-ftpct" name="update-playoff-ftpct">
+              <label for="most-recent-playoff-pts">Points</label>
+              <input type="number" id="most-recent-playoff-pts" name="most-recent-playoff-pts" value="50">
+              <label for="most-recent-playoff-reb">Rebounds</label>
+              <input type="number" id="most-recent-playoff-reb" name="most-recent-playoff-reb" value="10">
+              <label for="most-recent-playoff-ast">Assists</label>
+              <input type="number" id="most-recent-playoff-ast" name="most-recent-playoff-ast" value="10">
+              <label for="most-recent-playoff-stl">Steals</label>
+              <input type="number" id="most-recent-playoff-stl" name="most-recent-playoff-stl" value="10">
+              <label for="most-recent-playoff-blk">Blocks</label>
+              <input type="number" id="most-recent-playoff-blk" name="most-recent-playoff-blk" value="10">
+              <label for="update-playoff-fgpct">New Playoff FG%</label>
+              <input type="number" id="update-playoff-fgpct" name="update-playoff-fgpct" value="50.3">
+              <label for="update-playoff-tppct">New Playoff 3PT%</label>
+              <input type="number" id="update-playoff-tppct" name="update-playoff-tppct" value="38.7">
+              <label for="update-playoff-ftpct">New Playoff FT%</label>
+              <input type="number" id="update-playoff-ftpct" name="update-playoff-ftpct" value="80.2">
 
               <button class="update-playoff-stats-btn">Update</button>
               <button class="cancel-update-playoff-stats-btn">Cancel</button>
@@ -295,14 +295,14 @@
           <dialog class="update-player-awards">
             <h2 class="update-title">Add awards</h2>
             <form class="update-awards-form">
-              <label for="update-mvp">Update MVPs: </label>
-              <input type="text" id="update-mvp" name="update-mvp" placeholder="Year">
-              <label for="update-dpoy">Update DPOYs: </label>
-              <input type="text" id="update-dpoy" name="update-dpoy" placeholder="Year">
-              <label for="update-all-nba">Update All-NBAs: </label>
-              <input type="text" id="update-all-nba" name="update-all-nba" placeholder="Year">
-              <label for="update-all-def">Update All-Def: </label>
-              <input type="text" id="update-all-def" name="update-all-def" placeholder="Year">
+              <label for="update-mvp">Update MVPs</label>
+              <input type="text" id="update-mvp" name="update-mvp" placeholder="Year" value="2025">
+              <label for="update-dpoy">Update DPOYs</label>
+              <input type="text" id="update-dpoy" name="update-dpoy" placeholder="Year" value="2025">
+              <label for="update-all-nba">Update All-NBAs</label>
+              <input type="text" id="update-all-nba" name="update-all-nba" placeholder="Year" value="2025">
+              <label for="update-all-def">Update All-Def</label>
+              <input type="text" id="update-all-def" name="update-all-def" placeholder="Year" value="2025">
 
               <button class="update-player-awards-btn">Update</button>
               <button class="cancel-update-player-awards-btn">Cancel</button>

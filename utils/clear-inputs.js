@@ -57,3 +57,15 @@ function clearTeamUpdateInput(card) {
   const teamInput = card.querySelector("#update-team-input");
   teamInput.value = "";
 }
+
+function clearAwardUpdateInputs(card) {
+  const mvpInput = card.querySelector("#update-mvp");
+  const dpoyInput = card.querySelector("#update-dpoy");
+  const allNbaInput = card.querySelector("#update-all-nba");
+  const allDefInput = card.querySelector("#update-all-def");
+
+  mvpInput.value = "";
+  dpoyInput.value = "";
+  allNbaInput.value = "";
+  allDefInput.value = "";
+} 

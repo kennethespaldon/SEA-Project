@@ -65,6 +65,7 @@ function displayPlayerAwards(card, name) {
   if (numberOfMVPs === 0) {
     mvpAwards.classList.add("hidden");
   } else {
+    mvpAwards.classList.remove("hidden");
     mvpCount.textContent = `${numberOfMVPs}x Most Valuable Payer`;
     mvpYears.textContent = `(${playerAwards.mvp.yearsAwarded.join(", ")})`;
   }
@@ -73,6 +74,7 @@ function displayPlayerAwards(card, name) {
   if (numberOfDPOYs === 0) {
     dpoyAwards.classList.add("hidden");
   } else {
+    dpoyAwards.classList.remove("hidden");
     dpoyCount.textContent = `${numberOfDPOYs}x Defensive Player of the Year`;
     dpoyYears.textContent = `(${playerAwards.dpoy.yearsAwarded.join(", ")})`;
   }
@@ -81,6 +83,7 @@ function displayPlayerAwards(card, name) {
   if (numberOfAllNBASelections === 0) {
     allNbaAwards.classList.add("hidden");
   } else {
+    allNbaAwards.classList.remove("hidden");
     allNbaCount.textContent = `${numberOfAllNBASelections}x All-NBA`;
     allNbaYears.textContent = `(${playerAwards.allNBA.yearsAwarded.join(", ")})`;
   }
@@ -89,6 +92,7 @@ function displayPlayerAwards(card, name) {
   if (numberOfAllDefSelections === 0) {
     allDefAwards.classList.add("hidden");
   } else {
+    allDefAwards.classList.remove("hidden");
     allDefCount.textContent = `${numberOfAllDefSelections}x All-Defensive`;
     allDefYears.textContent = `(${playerAwards.allDefense.yearsAwarded.join(", ")})`;
   }

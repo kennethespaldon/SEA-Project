@@ -151,6 +151,7 @@ function toggleButtonState(e, nextCard) {
 }
 
 // START of card update functions //
+// enable functions allow user to update player information or delete a card
 function enableRegularSeasonUpdate(card, playerName) {
   const updateRegStatsDialog = card.querySelector(".update-regular-stats");
   const updateRegStatsIcon = card.querySelector(".update-reg-stats-icon");
@@ -237,13 +238,13 @@ function enableAwardUpdate(card, playerName) {
     // push current year to "yearsAwarded" array for corresponding award
     updatePlayerAwards(card, playerName);
     displayPlayerAwards(card, playerName);
-    // clear dialog inputs for next entries
+    clearAwardUpdateInputs(card);
     updateAwardsDialog.close();
   });
 
   cancelUpdatePlayerAwardsBtn.addEventListener("click", (e) => {
     e.preventDefault();
-    // clear dialog inputs
+    clearAwardUpdateInputs(card);
     updateAwardsDialog.close();
   });
 }
@@ -335,12 +336,6 @@ function updateRegularSeasonStats(card, playerName) {
   const newRegFtPct = card.querySelector("#update-regular-ftpct");
 
   const regSzn = players[playerName].stats.regularSeason;
-
-  const recentGmPts = Number(mostRecentRegPts.value);
-  const recentGmReb = Number(mostRecentRegReb.value);
-  const recentGmAst = Number(mostRecentRegAst.value);
-  const recentGmStl = Number(mostRecentRegStl.value);
-  const recentGmBlk = Number(mostRecentRegBlk.value);
 
   // Update player object with new stats
   regSzn.gamesPlayed += 1;
@@ -477,7 +472,6 @@ function addPlayerTeam(name) {
 function addPlayerImage(name) {
   const player = players[name];
   player.image = playerImageInput.value.trim();
-  player.image = player.image.trim();
 }
 
 function addPlayer(e) {
@@ -507,7 +501,7 @@ undoDeleteBtn.addEventListener("click", () => {
   }
 
   // Pop most recently deleted player from trash array and puts it back in players object
-  // trash.pop() returns an array that looks like [playerName, playerObj]
+  // trash.pop() returns an array that looks like [playerName, {playerObj}]
   const [playerName, playerObj] = trash.pop();
 
   // Add most recently deleted player back into players object
@@ -537,14 +531,16 @@ function sortByStatPerGame(statType, season, direction) {
   // statType can be pointsPerGame, reboundsPerGame, assistsPerGame, stealsPerGame, or blocksPerGame
   statType = `${statType.toLowerCase()}PerGame`;
 
-  // Create an array of key/value pairs (also arrays) from players object, ["Player Name", {Player Object}]
+  // Create an array of string/object pairs (also arrays) from players object, ["Player Name", {Player Info}]
+  // Object.entries() converts an object into an array of key-value pairs
   const unsorted = Object.entries(players);
 
-  // Sort each player object in ascending statType
+  // Sort each player object in ascending or descending statType
   const sorted = unsorted.sort((player1, player2) => {
     const player1Stats = player1[1].stats[season][statType];
     const player2Stats = player2[1].stats[season][statType];
 
+    // Sorts players stats from lowest to highest or highest to lowest
     if (direction === "ascending") {
       return player1Stats - player2Stats;
     } else if (direction === "descending") {
@@ -554,7 +550,7 @@ function sortByStatPerGame(statType, season, direction) {
 
   clearPlayersObject();
 
-  // Re-add and sort players into players objects in ascending order
+  // Re-add players into players objects and sort
   sortPlayersObject(sorted);
 }
 
@@ -648,7 +644,7 @@ function udpdateTeamFilterOptions() {
   // Add teams of current players into teams array (no duplicates)
   updateCurrentTeams();
 
-  // Makes sure that filter options aren't duplicated
+  // Removes old list of teams to ensure that filter options aren't duplicated
   emptyTeamFilterOptions();
 
   // Add teams of existing players as filter options

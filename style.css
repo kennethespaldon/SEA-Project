@@ -12,7 +12,7 @@ body {
 
 body {
   display: grid;
-  grid-template-columns: 400px 5fr;
+  grid-template-columns: 1fr 5fr;
   background-image: url(https://wallpapers.com/images/hd/n-b-a-legends-collage-m8fw2y4s07rddam8.jpg);
   background-size: contain;
   backdrop-filter: blur(8px);
@@ -26,17 +26,18 @@ body {
 
 .main-header {
   background-color: rgba(0, 0, 0, 0.3);
-  padding: 24px;
   height: min-content;
 }
 
 .title {
-  margin: 0 0 42px 0;
-  font-size: 3rem;
+  margin: 0;
+  font-size: 36px;
+  padding: 24px 16px 0 16px;
   font-weight: normal;
   color: white;
 
   display: flex;
+  justify-content: center;
   align-items: center;
   gap: 32px;
 }
@@ -45,6 +46,7 @@ aside {
   display: flex;
   flex-direction: column;
   color: #ecf0f1;
+  padding: 16px 24px 24px 24px;
   gap: 24px;
   font-size: 20px;
   text-align: center;

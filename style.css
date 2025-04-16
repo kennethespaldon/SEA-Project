@@ -78,7 +78,6 @@ aside button {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
   grid-auto-rows: 800px;
-  gap: 50px 75px;
   padding: 50px;
   overflow-y: scroll;
 }
